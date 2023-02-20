@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RootNameRoutes } from '@/routes/RouteName';
+import { UserContext } from '@/context/userContext';
+import { AuthNameRoutes } from '@/routes/RouteName';
 
 export const Home = () => {
+  const { logout, currentUser } = useContext(UserContext);
   const navigate = useNavigate();
-  const onNotFoundNavigate = () => {
-    navigate(RootNameRoutes.PAGE_NOT_FOUND);
-  };
+
+  if (!currentUser) {
+    navigate(AuthNameRoutes.LOGIN, { replace: true });
+  }
 
   return (
-    <button className="btn" type="button" onClick={onNotFoundNavigate}>
-      Not found
-    </button>
+    <div className="w-10/12 bg-amber-50 h-screen">
+      <h1>Welcome</h1>
+      <button onClick={logout}>Logout</button>
+    </div>
   );
 };

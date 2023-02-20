@@ -31,6 +31,8 @@ module.exports = {
         'jsx-a11y/control-has-associated-label': 'off',
         'react/button-has-type': 'off',
         'react/jsx-props-no-spreading': 'off',
-        'import/extensions': 'off'
+        'import/extensions': 'off',
+        '@typescript-eslint/default-param-last': 'off',
+        'import/no-extraneous-dependencies': 'off'
     },
 }

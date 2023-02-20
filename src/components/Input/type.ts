@@ -5,4 +5,5 @@ export interface CustomInputPropsType {
   value: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
+  id: string;
 }

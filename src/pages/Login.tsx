@@ -1,39 +1,57 @@
-import React, { useState } from 'react';
-import { Checkbox } from '@/components/Checkbox';
+import React, { useContext } from 'react';
+import { useFormik } from 'formik';
+import { Link, useNavigate } from 'react-router-dom';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
-import { useInput } from '@/hooks/useInput';
 import { Text } from '@/components/Text';
+import { UserContext } from '@/context/userContext';
+import { AuthNameRoutes, RootNameRoutes } from '@/routes/RouteName';
 
 export const Login = () => {
-  const nickName = useInput('');
-  const password = useInput('');
+  const { login } = useContext(UserContext);
+  const navigate = useNavigate();
 
-  const [isRemembered, setIsRemembered] = useState(false);
-
-  const onIsRememberedClick = () => {
-    setIsRemembered(!isRemembered);
-  };
-
-  const onLoginClick = () => {
-    console.log('login');
-  };
+  const formik = useFormik({
+    initialValues: {
+      nickName: '',
+      password: '',
+    },
+    onSubmit: ({ nickName, password }) => {
+      login(nickName, password);
+      navigate(RootNameRoutes.HOME, { replace: true });
+    },
+  });
 
   return (
     <div className="bg-no-repeat bg-cover bg-center bg-fixed bg-bg h-full w-10/12 flex justify-center items-center">
-      <div className="flex flex-col justify-around items-center w-1/4 h-3/6 bg-white rounded">
+      <form
+        onSubmit={formik.handleSubmit}
+        className="flex flex-col justify-around items-center w-1/4 h-3/6 bg-white rounded"
+      >
         <Text>Login</Text>
-        <Input type="text" {...nickName} placeholder="Nick Name" />
-        <Input type="password" {...password} placeholder="Password" />
-        <Checkbox
-          label="Remember me"
-          value={isRemembered}
-          onChange={onIsRememberedClick}
+        <Input
+          id="nickName"
+          type="text"
+          onChange={formik.handleChange}
+          value={formik.values.nickName}
+          placeholder="Nick Name"
         />
-        <Button onClick={onLoginClick} type="button">
-          Sign in
-        </Button>
-      </div>
+        <Input
+          id="password"
+          type="password"
+          onChange={formik.handleChange}
+          value={formik.values.password}
+          placeholder="Password"
+        />
+        <Link
+          to={AuthNameRoutes.REGISTER}
+          replace
+          className="text-xl font-bold underline"
+        >
+          Sign up
+        </Link>
+        <Button type="submit">Sign in</Button>
+      </form>
     </div>
   );
 };

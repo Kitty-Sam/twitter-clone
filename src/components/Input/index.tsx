@@ -6,9 +6,11 @@ export const Input: FC<CustomInputPropsType> = ({
   value,
   onChange,
   placeholder,
+  id,
 }) => {
   return (
     <input
+      id={id}
       className="w-4/5 bg-slate-200 rounded-3xl text-slate-800 uppercase p-2 border-transparent focus:border-transparent focus:ring-0"
       type={type}
       value={value}
