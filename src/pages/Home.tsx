@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RootNameRoutes } from '../Routes/RouteName';
+import { RootNameRoutes } from '../routes/RouteName';
 
 export const Home = () => {
   const navigate = useNavigate();

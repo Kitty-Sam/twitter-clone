@@ -27,6 +27,9 @@ module.exports = {
     rules: {
         'react/react-in-jsx-scope': 0,
         'import/prefer-default-export': 'off',
-        'react/function-component-definition': 'off'
+        'react/function-component-definition': 'off',
+        'jsx-a11y/control-has-associated-label': 'off',
+        'react/button-has-type': 'off',
+        'react/jsx-props-no-spreading': 'off'
     },
 }
