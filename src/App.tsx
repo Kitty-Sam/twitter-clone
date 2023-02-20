@@ -1,22 +1,11 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Home } from './pages/Home';
-import { NotFound } from './pages/NotFound';
-import { Deploy } from './pages/Deploy';
+import { BrowserRouter } from 'react-router-dom';
+import { useState } from 'react';
+import { RootRoutes } from './Routes/RootRoutes';
+import { AuthRoutes } from './Routes/AuthRoutes';
 
-export function App() {
+export const App = () => {
+  const [isLogged, setIsLogged] = useState(true);
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="*" element={<NotFound />} />
-      <Route path="/deploy" element={<Deploy />} />
-    </Routes>
+    <BrowserRouter>{isLogged ? <RootRoutes /> : <AuthRoutes />}</BrowserRouter>
   );
-}
-
-export function WrappedApp() {
-  return (
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  );
-}
+};
