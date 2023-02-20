@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text } from '../components/Text';
-import { Input } from '../components/Input';
-import { Button } from '../components/Button';
-import { useInput } from '../hooks/useInput';
+import { Text } from '@/components/Text';
+import { Input } from '@/components/Input';
+import { Button } from '@/components/Button';
+import { useInput } from '@/hooks/useInput';
 
 export const Register = () => {
   const firstName = useInput('');

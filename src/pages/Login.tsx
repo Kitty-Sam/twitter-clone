@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Checkbox } from '../components/Checkbox';
-import { Input } from '../components/Input';
-import { Button } from '../components/Button';
-import { useInput } from '../hooks/useInput';
-import { Text } from '../components/Text';
+import { Checkbox } from '@/components/Checkbox';
+import { Input } from '@/components/Input';
+import { Button } from '@/components/Button';
+import { useInput } from '@/hooks/useInput';
+import { Text } from '@/components/Text';
 
 export const Login = () => {
   const nickName = useInput('');
