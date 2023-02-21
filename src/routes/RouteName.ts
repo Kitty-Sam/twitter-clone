@@ -4,6 +4,6 @@ export enum RootNameRoutes {
 }
 
 export enum AuthNameRoutes {
-  LOGIN = 'login',
-  REGISTER = 'register',
+  LOGIN = '/login',
+  REGISTER = '/register',
 }
