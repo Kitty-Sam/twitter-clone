@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
-import { Text } from '@/components/Text';
-import { Input } from '@/components/Input';
-import { Button } from '@/components/Button';
+import { Text } from '@shared/Text';
+import { Input } from '@shared/Input';
+import { Button } from '@shared/Button';
 import { UserContext } from '@/context/userContext';
 import { AuthNameRoutes } from '@/routes/RouteName';
 
@@ -29,7 +29,7 @@ export const Register = () => {
   return (
     <div className="bg-no-repeat bg-cover bg-center bg-fixed bg-bg h-full w-10/12 flex justify-center items-center">
       <form
-        className="flex flex-col justify-around items-center w-1/4 h-3/6 bg-white rounded"
+        className="flex flex-col justify-evenly items-center w-1/4 h-3/6 bg-white rounded py-2"
         onSubmit={formik.handleSubmit}
       >
         <Text>Sign up</Text>

@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { useFormik } from 'formik';
 import { Link, useNavigate } from 'react-router-dom';
-import { Input } from '@/components/Input';
-import { Button } from '@/components/Button';
-import { Text } from '@/components/Text';
+import { Input } from '@shared/Input';
+import { Button } from '@shared/Button';
+import { Text } from '@shared/Text';
 import { UserContext } from '@/context/userContext';
 import { AuthNameRoutes, RootNameRoutes } from '@/routes/RouteName';
 
@@ -26,7 +26,7 @@ export const Login = () => {
     <div className="bg-no-repeat bg-cover bg-center bg-fixed bg-bg h-full w-10/12 flex justify-center items-center">
       <form
         onSubmit={formik.handleSubmit}
-        className="flex flex-col justify-around items-center w-1/4 h-3/6 bg-white rounded"
+        className="flex flex-col justify-evenly items-center w-1/4 h-2/6 bg-white rounded py-2"
       >
         <Text>Login</Text>
         <Input
