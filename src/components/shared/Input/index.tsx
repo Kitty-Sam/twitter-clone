@@ -11,7 +11,7 @@ export const Input: FC<CustomInputPropsType> = ({
   return (
     <input
       id={id}
-      className="w-4/5 bg-slate-200 rounded-3xl text-slate-800 uppercase p-2 border-transparent focus:border-transparent focus:ring-0"
+      className="w-full bg-lime-200 rounded text-slate-800 my-2 px-4 border-transparent focus:border-transparent focus:ring-0"
       type={type}
       value={value}
       onChange={onChange}

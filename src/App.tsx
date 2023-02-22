@@ -44,7 +44,7 @@ export const App = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-emerald-100 w-screen">
+    <div className="flex justify-center items-center h-full w-screen">
       <BrowserRouter>
         <UserContext.Provider value={userContext}>
           <RoutesNames />
