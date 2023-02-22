@@ -6,6 +6,7 @@ import { RegisterModal } from '@/components/RegisterModal';
 import { avatar, cover, signUp } from '@/constants/images';
 import { tweets } from '@/constants/temporaryTweets';
 import { AddTweetModal } from '@/components/AddTweetModal';
+import { TweetContainer } from '@/components/TweetContainer';
 
 export const Home = () => {
   const login = useOpen(false);
@@ -70,9 +71,13 @@ export const Home = () => {
 
         <div className="border border-lime-500  w-2/3 m-10">
           {tweets.map((singleTweet) => (
-            <div className="mb-4" key={singleTweet}>
-              {singleTweet}
-            </div>
+            <TweetContainer
+              key={singleTweet}
+              tweet={singleTweet}
+              nickName="kitty-pitty"
+              name="Katsiaryna"
+              date={new Date().toLocaleDateString()}
+            />
           ))}
         </div>
 
