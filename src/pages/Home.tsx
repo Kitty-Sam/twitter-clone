@@ -70,9 +70,9 @@ export const Home = () => {
         </div>
 
         <div className="border border-lime-500  w-2/3 m-10">
-          {tweets.map((singleTweet) => (
+          {tweets.map((singleTweet, index) => (
             <TweetContainer
-              key={singleTweet}
+              key={index}
               tweet={singleTweet}
               nickName="kitty-pitty"
               name="Katsiaryna"
@@ -81,7 +81,7 @@ export const Home = () => {
           ))}
         </div>
 
-        <div className="border border-lime-500  w-1/4 m-10 flex flex-col items-center">
+        <div className="border border-lime-500 h-96 w-1/4 m-10 flex flex-col items-center">
           <img src={signUp} alt="background" className="w-full h-40 " />
           <p className="font-bold m-4 text-xl text-center">
             Hey! Why don’t you join us?

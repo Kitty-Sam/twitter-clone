@@ -33,6 +33,7 @@ module.exports = {
         'react/jsx-props-no-spreading': 'off',
         'import/extensions': 'off',
         '@typescript-eslint/default-param-last': 'off',
-        'import/no-extraneous-dependencies': 'off'
+        'import/no-extraneous-dependencies': 'off',
+        'react/no-array-index-key': 'off'
     },
 }

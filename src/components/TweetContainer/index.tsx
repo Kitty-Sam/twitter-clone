@@ -1,12 +1,8 @@
 import React, { FC } from 'react';
+import { FiHeart } from 'react-icons/fi';
 import { avatar } from '@/constants/images';
+import { TweetPropsType } from '@/components/TweetContainer/type';
 
-export interface TweetPropsType {
-  tweet: string;
-  name: string;
-  nickName: string;
-  date: any;
-}
 export const TweetContainer: FC<TweetPropsType> = ({
   tweet,
   name,
@@ -25,7 +21,11 @@ export const TweetContainer: FC<TweetPropsType> = ({
           <p className="px-4 italic">{date}</p>
         </div>
         <p className="italic">{tweet}</p>
-        <p className="font-bold">like</p>
+        <FiHeart
+          className="hover:animate-pulse hover:fill-red-500"
+          size={24}
+          color="rgb(239 68 68)"
+        />
       </div>
     </div>
   );
