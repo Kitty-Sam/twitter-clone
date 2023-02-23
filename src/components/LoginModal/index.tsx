@@ -24,48 +24,50 @@ export const LoginModal: FC<LoginModalPropsType> = ({
 
   return (
     <Modal
-      className="fixed z-10 top-1/4 left-1/3 w-1/5 bg-amber-50 rounded-3xl p-5"
+      className="fixed z-10 top-0 left-0 bottom-0 right-0"
       show={isOpen}
       renderBackdrop={renderBackdrop}
     >
-      <div>
-        <div className="flex flex-row justify-between items-center py-2">
-          <Text>Login</Text>
-          <Button background onClick={() => close()}>
-            x
-          </Button>
-        </div>
-        <form onSubmit={formik.handleSubmit}>
-          <Input
-            id="nickName"
-            type="text"
-            onChange={formik.handleChange}
-            value={formik.values.nickName}
-            placeholder="nick name"
-          />
-          <Input
-            id="password"
-            type="password"
-            onChange={formik.handleChange}
-            value={formik.values.password}
-            placeholder="password"
-          />
-          <div className="flex flex-row justify-evenly items-center py-5">
-            <p>Do have an account?</p>
-            <Button
-              background={false}
-              onClick={() => {
-                close();
-                registerOpen();
-              }}
-            >
-              Sign up
-            </Button>
-            <Button background type="submit">
-              Sign in
+      <div className="flex items-center justify-center h-full">
+        <div className="bg-amber-50 rounded-3xl p-5 w-1/4">
+          <div className="flex flex-row justify-between items-center py-2">
+            <Text>Login</Text>
+            <Button background onClick={() => close()}>
+              x
             </Button>
           </div>
-        </form>
+          <form onSubmit={formik.handleSubmit}>
+            <Input
+              id="nickName"
+              type="text"
+              onChange={formik.handleChange}
+              value={formik.values.nickName}
+              placeholder="nick name"
+            />
+            <Input
+              id="password"
+              type="password"
+              onChange={formik.handleChange}
+              value={formik.values.password}
+              placeholder="password"
+            />
+            <div className="flex flex-row justify-evenly items-center py-5">
+              <p>Do have an account?</p>
+              <Button
+                background={false}
+                onClick={() => {
+                  close();
+                  registerOpen();
+                }}
+              >
+                Sign up
+              </Button>
+              <Button background type="submit">
+                Sign in
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
     </Modal>
   );
