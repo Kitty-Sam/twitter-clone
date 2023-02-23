@@ -34,6 +34,7 @@ module.exports = {
         'import/extensions': 'off',
         '@typescript-eslint/default-param-last': 'off',
         'import/no-extraneous-dependencies': 'off',
-        'react/no-array-index-key': 'off'
+        'react/no-array-index-key': 'off',
+        'react/jsx-no-constructed-context-values': 'off'
     },
 }

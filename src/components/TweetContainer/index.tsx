@@ -8,6 +8,7 @@ export const TweetContainer: FC<TweetPropsType> = ({
   name,
   nickName,
   date,
+  count,
 }) => {
   return (
     <div className="w-2/3 flex flex-row items-center border border-lime-500 rounded-3xl w-full mb-5 p-5">
@@ -26,6 +27,7 @@ export const TweetContainer: FC<TweetPropsType> = ({
           size={24}
           color="rgb(239 68 68)"
         />
+        <p className="italic">{count}</p>
       </div>
     </div>
   );

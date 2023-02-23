@@ -1,20 +1,26 @@
 import { createContext } from 'react';
-import { ICurrentUser, IUser } from '@/context/state';
+
+export interface ITweet {
+  text: string;
+  likes: {
+    userId: number;
+  }[];
+}
+export interface IUser {
+  id: number;
+  avatar?: string;
+  bgImage?: string;
+  username: string;
+  firstName: string;
+  location: string;
+  joined: string;
+  tweets: ITweet[];
+}
 
 interface UserContextType {
   users: IUser[];
-  currentUser: ICurrentUser | null;
-  hasLoginError: boolean;
-  login: any;
-  logout: any;
-  register: any;
 }
 
 export const UserContext = createContext<UserContextType>({
   users: [] as IUser[],
-  currentUser: null,
-  hasLoginError: false,
-  login: (nickName: string, password: string) => null,
-  logout: () => null,
-  register: () => null,
 });

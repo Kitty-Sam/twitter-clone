@@ -4,9 +4,9 @@ import { useOpen } from '@/hooks/useOpen';
 import { LoginModal } from '@/components/LoginModal';
 import { RegisterModal } from '@/components/RegisterModal';
 import { avatar, cover, signUp } from '@/constants/images';
-import { tweets } from '@/constants/temporaryTweets';
 import { AddTweetModal } from '@/components/AddTweetModal';
 import { TweetContainer } from '@/components/TweetContainer';
+import { users } from '@/constants/db';
 
 export const Home = () => {
   const login = useOpen(false);
@@ -70,13 +70,14 @@ export const Home = () => {
         </div>
 
         <div className="border border-lime-500  w-2/3 m-10">
-          {tweets.map((singleTweet, index) => (
+          {users[2].tweets.map((singleTweet, index) => (
             <TweetContainer
               key={index}
-              tweet={singleTweet}
+              tweet={singleTweet.text}
+              count={singleTweet.likes.length}
               nickName="kitty-pitty"
               name="Katsiaryna"
-              date={new Date().toLocaleDateString()}
+              date={singleTweet.date}
             />
           ))}
         </div>

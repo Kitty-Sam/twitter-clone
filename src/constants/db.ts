@@ -1,4 +1,4 @@
-export const db = [
+export const users = [
   {
     id: 1,
     avatar: 'www.example.url/picture.png',
@@ -10,7 +10,7 @@ export const db = [
     joined: '2023-01-01',
     tweets: [
       {
-        text: 'Hello World! My first Tweet :)',
+        text: 'Hello World! The first Tweet from Dima:)',
         likes: [
           {
             userId: 1,
@@ -34,7 +34,7 @@ export const db = [
     joined: '2023-01-02',
     tweets: [
       {
-        text: 'Hello World! My first Tweet :)',
+        text: 'Hello World! The first Tweet from Egor :)',
         likes: [
           {
             userId: 1,
@@ -53,13 +53,43 @@ export const db = [
     joined: '2023-01-03',
     tweets: [
       {
-        text: 'Hello World! My first Tweet :)',
+        text: 'Hello World! The first Tweet from Kitty:)',
         likes: [
           {
             userId: 1,
           },
         ],
         date: '2023-01-04',
+      },
+      {
+        text: 'Hello World! The second Tweet from Kitty:)',
+        likes: [
+          {
+            userId: 1,
+          },
+          {
+            userId: 0,
+          },
+          {
+            userId: 2,
+          },
+        ],
+        date: '2023-05-04',
+      },
+      {
+        text: 'Hello World! The third Tweet from Kitty:)',
+        likes: [
+          {
+            userId: 1,
+          },
+          {
+            userId: 0,
+          },
+          {
+            userId: 2,
+          },
+        ],
+        date: '2023-07-04',
       },
     ],
   },
