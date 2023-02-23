@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { Button } from '@shared/Button';
 import { useOpen } from '@/hooks/useOpen';
 import { LoginModal } from '@/components/LoginModal';
@@ -7,11 +7,18 @@ import { avatar, cover, signUp } from '@/constants/images';
 import { AddTweetModal } from '@/components/AddTweetModal';
 import { TweetContainer } from '@/components/TweetContainer';
 import { users } from '@/constants/db';
+import { getCurrentUser, getStartUsers } from '@/helpers/getStartUsers';
 
 export const Home = () => {
   const login = useOpen(false);
   const register = useOpen(false);
   const tweet = useOpen(false);
+
+  const savedUsers = getStartUsers('users');
+  const currentUser = getCurrentUser('currentUser');
+
+  const [, updateState] = useState<string>();
+  const forceUpdate = useCallback(() => updateState(''), []);
 
   const renderBackdrop = (props: any) => (
     <div
@@ -31,14 +38,27 @@ export const Home = () => {
     tweet.onOpen();
   };
 
+  const logOut = () => {
+    localStorage.removeItem('currentUser');
+    forceUpdate();
+  };
+
   return (
     <div className="w-9/12 bg-amber-50  relative">
       <div className="flex flex-row justify-end px-10 my-5 ">
-        <Button background={false} onClick={loginOpenClick}>
+        <Button
+          background={false}
+          onClick={loginOpenClick}
+          disabled={savedUsers.includes(currentUser)}
+        >
           Login
         </Button>
 
-        <Button background onClick={registerOpenClick}>
+        <Button
+          background
+          onClick={registerOpenClick}
+          disabled={savedUsers.includes(currentUser)}
+        >
           Sign up
         </Button>
       </div>
@@ -49,13 +69,16 @@ export const Home = () => {
         <img src={avatar} alt="avatar" className="w-40 h-40 rounded-full" />
       </div>
 
-      <div className="border border-lime-500 p-4 flex justify-center ">
-        <div className="flex flex-col">
+      <div className="border border-lime-500 p-4 flex justify-center items-center">
+        <div className="flex flex-col px-5">
           <Button background={false} onClick={tweetOpenClick}>
             Tweets
           </Button>
           <p>Tweets amount</p>
         </div>
+        <Button background onClick={tweetOpenClick}>
+          Add tweet
+        </Button>
       </div>
 
       <div className="flex flex-row">
@@ -64,8 +87,8 @@ export const Home = () => {
           <p className="italic hover:not-italic">Surname Name</p>
           <p className="italic hover:not-italic">Location</p>
           <p className="italic hover:not-italic pb-10">Join data</p>
-          <Button background onClick={tweetOpenClick}>
-            Add tweet
+          <Button background={false} onClick={logOut}>
+            Log out
           </Button>
         </div>
 
@@ -90,7 +113,11 @@ export const Home = () => {
           <p className="italic hover:not-italic p-4 text-center">
             It’s simple - just click on sign up button!
           </p>
-          <Button background onClick={registerOpenClick}>
+          <Button
+            background
+            onClick={registerOpenClick}
+            disabled={savedUsers.includes(currentUser)}
+          >
             Sign up
           </Button>
         </div>

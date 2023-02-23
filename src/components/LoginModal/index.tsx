@@ -1,10 +1,12 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Modal } from 'react-overlays';
 import { Text } from '@shared/Text';
 import { Button } from '@shared/Button';
 import { Input } from '@shared/Input';
 import { useFormik } from 'formik';
+import { Checkbox } from '@shared/Checkbox';
 import { LoginModalPropsType } from '@/components/LoginModal/type';
+import { getStartUsers } from '@/helpers/getStartUsers';
 
 export const LoginModal: FC<LoginModalPropsType> = ({
   isOpen,
@@ -12,13 +14,23 @@ export const LoginModal: FC<LoginModalPropsType> = ({
   close,
   registerOpen,
 }) => {
+  const [isRemembered, setIsRemembered] = useState(false);
+  const [usersLS] = useState(getStartUsers('users'));
+
   const formik = useFormik({
     initialValues: {
-      nickName: '',
+      username: '',
       password: '',
     },
-    onSubmit: ({ nickName, password }) => {
-      console.log(nickName, password);
+    onSubmit: ({ username, password }) => {
+      localStorage.setItem('currentUser', JSON.stringify(username));
+
+      if (isRemembered) {
+        const withNewUser = usersLS.concat(username);
+        localStorage.setItem('users', JSON.stringify(withNewUser));
+        formik.resetForm();
+        close();
+      }
     },
   });
 
@@ -38,11 +50,11 @@ export const LoginModal: FC<LoginModalPropsType> = ({
           </div>
           <form onSubmit={formik.handleSubmit}>
             <Input
-              id="nickName"
+              id="username"
               type="text"
               onChange={formik.handleChange}
-              value={formik.values.nickName}
-              placeholder="nick name"
+              value={formik.values.username}
+              placeholder="user name"
             />
             <Input
               id="password"
@@ -50,6 +62,11 @@ export const LoginModal: FC<LoginModalPropsType> = ({
               onChange={formik.handleChange}
               value={formik.values.password}
               placeholder="password"
+            />
+            <Checkbox
+              label="Remember me"
+              value={isRemembered}
+              onChange={() => setIsRemembered(!isRemembered)}
             />
             <div className="flex flex-row justify-evenly items-center py-5">
               <p>Do have an account?</p>

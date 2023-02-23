@@ -5,6 +5,8 @@ import { Button } from '@shared/Button';
 import { Input } from '@shared/Input';
 import { useFormik } from 'formik';
 import { RegisterModalPropsType } from '@/components/RegisterModal/type';
+import { users } from '@/constants/db';
+import { getCurrentDate } from '@/helpers/getCurrentDate';
 
 export const RegisterModal: FC<RegisterModalPropsType> = ({
   renderBackdrop,
@@ -12,18 +14,32 @@ export const RegisterModal: FC<RegisterModalPropsType> = ({
   close,
   isOpen,
 }) => {
+  const id = Date.now();
+
   const formik = useFormik({
     initialValues: {
       firstName: '',
-      secondName: '',
-      nickName: '',
+      lastName: '',
+      username: '',
       location: '',
       password: '',
     },
-    onSubmit: ({ nickName, firstName, secondName, password, location }) => {
-      console.log(nickName, firstName, secondName, password, location);
+    onSubmit: ({ username, firstName, lastName, location }) => {
+      users.push({
+        id,
+        location,
+        firstName,
+        lastName,
+        username,
+        avatar: '',
+        bgImage: '',
+        joined: getCurrentDate(),
+        tweets: [],
+      });
+      formik.resetForm();
     },
   });
+
   return (
     <Modal
       className="fixed z-10 top-0 left-0 bottom-0 right-0"
@@ -49,17 +65,17 @@ export const RegisterModal: FC<RegisterModalPropsType> = ({
             />
             <Input
               type="text"
-              id="secondName"
+              id="lastName"
               onChange={formik.handleChange}
-              value={formik.values.secondName}
-              placeholder="Second Name"
+              value={formik.values.lastName}
+              placeholder="Last Name"
             />
             <Input
               type="text"
               id="nickName"
               onChange={formik.handleChange}
-              value={formik.values.nickName}
-              placeholder="Nick Name"
+              value={formik.values.username}
+              placeholder="User name"
             />
             <Input
               type="text"

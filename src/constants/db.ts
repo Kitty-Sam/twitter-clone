@@ -91,6 +91,36 @@ export const users = [
         ],
         date: '2023-07-04',
       },
+      {
+        text: 'Hello World! The third Tweet from Kitty:)',
+        likes: [
+          {
+            userId: 1,
+          },
+          {
+            userId: 0,
+          },
+          {
+            userId: 2,
+          },
+        ],
+        date: '2023-07-04',
+      },
+      {
+        text: 'Hello World! The third Tweet from Kitty:)',
+        likes: [
+          {
+            userId: 1,
+          },
+          {
+            userId: 0,
+          },
+          {
+            userId: 2,
+          },
+        ],
+        date: '2023-07-04',
+      },
     ],
   },
   {

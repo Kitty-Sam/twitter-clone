@@ -5,4 +5,5 @@ export interface ButtonPropsType {
   children: ReactNode;
   onClick?: () => void;
   background: boolean;
+  disabled?: boolean;
 }
