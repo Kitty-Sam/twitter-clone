@@ -6,12 +6,8 @@ import { RegisterModal } from '@/components/RegisterModal';
 import { avatarNone, coverNone, signUp } from '@/constants/images';
 import { AddTweetModal } from '@/components/AddTweetModal';
 import { TweetContainer } from '@/components/TweetContainer';
-import {
-  getAllUsers,
-  getCurrentUser,
-  getStartUsers,
-} from '@/helpers/getStartUsers';
-import { IUser } from '@/context/userContext';
+import { getDataFromLS } from '@/helpers/getStartUsers';
+import { ITweet, IUser } from '@/context/userContext';
 import { useForceUpdate } from '@/hooks/useForceUpdate';
 
 export const Home = () => {
@@ -19,9 +15,9 @@ export const Home = () => {
   const register = useOpen(false);
   const tweet = useOpen(false);
 
-  const rememberedUsers = getStartUsers('rememberedUsers');
-  const currentUser = getCurrentUser('currentUser');
-  const users = getAllUsers('theAllUsers');
+  const rememberedUsers = getDataFromLS('rememberedUsers');
+  const currentUser = getDataFromLS('currentUser');
+  const users = getDataFromLS('theAllUsers');
 
   const [isShowAllTweets, setIsShowAllTweets] = useState(false);
   const [myTweets, setMyTweets] = useState(true);
@@ -77,14 +73,14 @@ export const Home = () => {
           Sign up
         </Button>
       </div>
-      <div className="bg-amber-50 h-96 mt-5">
+      <div className="bg-amber-50 h-96 mt-5 object-cover">
         <img
           src={currentActiveUser ? currentActiveUser.bgImage : coverNone}
           alt="background"
           className="h-full w-full"
         />
       </div>
-      <div className="mt-5 absolute left-40 top-80">
+      <div className="mt-5 absolute left-40 top-80 object-cover">
         <img
           src={currentActiveUser ? currentActiveUser.avatar : avatarNone}
           alt="avatar"
@@ -92,8 +88,8 @@ export const Home = () => {
         />
       </div>
 
-      <div className="p-4 flex justify-center items-center">
-        <div className="flex flex-col px-5">
+      <div className="p-5 flex justify-center items-center flex-col">
+        <div>
           <Button
             background={false}
             onClick={() => {
@@ -104,8 +100,7 @@ export const Home = () => {
           >
             All Tweets
           </Button>
-        </div>
-        <div className="flex flex-col px-5">
+
           <Button
             background={false}
             onClick={() => {
@@ -116,21 +111,14 @@ export const Home = () => {
           >
             My Tweets
           </Button>
-          <p className="italic hover:not-italic px-10">
-            {currentActiveUser && currentActiveUser.tweets.length}
-          </p>
         </div>
-        <Button
-          background
-          onClick={tweetOpenClick}
-          disabled={!currentActiveUser}
-        >
-          Add tweet
-        </Button>
+        <p className="italic hover: pl-32">
+          {currentActiveUser && currentActiveUser.tweets.length}
+        </p>
       </div>
 
       <div className="flex flex-row">
-        <div className="w-1/4 h-96 m-10 flex flex-col justify-center items-center">
+        <div className="w-1/4 h-96 m-5 flex flex-col justify-center items-center">
           <p className="font-bold m-4 text-xl">Personal info</p>
           <p className="font-bold italic hover:not-italic">
             {currentActiveUser
@@ -155,7 +143,7 @@ export const Home = () => {
         <div className="w-2/3 m-10">
           {isShowAllTweets &&
             users.map((user: IUser) =>
-              user.tweets.map((item: any, index: number) => (
+              user.tweets.map((item: ITweet, index: number) => (
                 <TweetContainer
                   avatarTweet={user.avatar || avatarNone}
                   key={index}
@@ -171,18 +159,21 @@ export const Home = () => {
 
           {myTweets &&
             currentActiveUser &&
-            currentActiveUser.tweets.map((singleTweet: any, index: number) => (
-              <TweetContainer
-                avatarTweet={currentActiveUser.avatar}
-                key={index}
-                tweet={singleTweet.text}
-                count={singleTweet.likes}
-                nickName={currentActiveUser.username}
-                name={currentActiveUser.firstName}
-                date={singleTweet.date}
-                currentUserId={currentActiveUser.id}
-              />
-            ))}
+            currentActiveUser.tweets.map(
+              (singleTweet: ITweet, index: number) =>
+                singleTweet && (
+                  <TweetContainer
+                    avatarTweet={currentActiveUser.avatar}
+                    key={index}
+                    tweet={singleTweet.text}
+                    count={singleTweet.likes}
+                    nickName={currentActiveUser.username}
+                    name={currentActiveUser.firstName}
+                    date={singleTweet.date}
+                    currentUserId={currentActiveUser.id}
+                  />
+                )
+            )}
 
           {!currentActiveUser && !isShowAllTweets && (
             <p className="italic hover:not-italic p-10"> Join us first ...</p>
@@ -190,7 +181,7 @@ export const Home = () => {
         </div>
 
         {!currentActiveUser ? (
-          <div className="h-96 w-1/4 m-10 flex flex-col items-center">
+          <div className="h-96 w-1/4 m-10 flex flex-col items-center object-cover">
             <img src={signUp} alt="background" className="w-full h-40 " />
             <p className="font-bold m-4 text-xl text-center">
               Hey! Why don’t you join us?
@@ -212,6 +203,13 @@ export const Home = () => {
             <p className="italic hover:not-italic p-4 text-center">
               Welcome home ...
             </p>
+            <Button
+              background
+              onClick={tweetOpenClick}
+              disabled={!currentActiveUser}
+            >
+              Add tweet
+            </Button>
           </div>
         )}
       </div>

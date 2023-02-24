@@ -4,11 +4,13 @@ import { Text } from '@shared/Text';
 import { Button } from '@shared/Button';
 import { Input } from '@shared/Input';
 import { useFormik } from 'formik';
+import { ButtonCancel } from '@shared/ButtonCancel';
+import { nanoid } from 'nanoid';
 import { RegisterModalPropsType } from '@/components/RegisterModal/type';
 import { getCurrentDate } from '@/helpers/getCurrentDate';
-import { getAllUsers } from '@/helpers/getStartUsers';
 import { useForceUpdate } from '@/hooks/useForceUpdate';
 import { avatarNone, coverNone } from '@/constants/images';
+import { getDataFromLS } from '@/helpers/getStartUsers';
 
 export const RegisterModal: FC<RegisterModalPropsType> = ({
   renderBackdrop,
@@ -16,7 +18,7 @@ export const RegisterModal: FC<RegisterModalPropsType> = ({
   close,
   isOpen,
 }) => {
-  const id = Date.now();
+  const id = nanoid(10);
   const forceUpdate = useForceUpdate();
 
   const formik = useFormik({
@@ -32,7 +34,9 @@ export const RegisterModal: FC<RegisterModalPropsType> = ({
         'credential',
         JSON.stringify({ username, password })
       );
-      const usersFromLs = getAllUsers('theAllUsers');
+      const usersFromLs = getDataFromLS('theAllUsers');
+
+      // localStorage.setItem('currentUser', JSON.stringify(id));
 
       const withNewUser = usersFromLs.concat({
         id,
@@ -43,13 +47,7 @@ export const RegisterModal: FC<RegisterModalPropsType> = ({
         avatar: avatarNone,
         bgImage: coverNone,
         joined: getCurrentDate(),
-        tweets: [
-          {
-            text: 'no tweet',
-            likes: [],
-            date: getCurrentDate(),
-          },
-        ],
+        tweets: [],
       });
 
       localStorage.setItem('theAllUsers', JSON.stringify(withNewUser));
@@ -58,6 +56,17 @@ export const RegisterModal: FC<RegisterModalPropsType> = ({
       forceUpdate();
     },
   });
+
+  const cancelClick = () => {
+    formik.resetForm();
+    close();
+  };
+
+  const signInClick = () => {
+    formik.resetForm();
+    close();
+    loginOpen();
+  };
 
   return (
     <Modal
@@ -69,9 +78,7 @@ export const RegisterModal: FC<RegisterModalPropsType> = ({
         <div className="bg-amber-50 rounded-3xl p-5 w-1/4">
           <div className="flex flex-row justify-between items-center py-2">
             <Text>Register</Text>
-            <Button background onClick={() => close()}>
-              x
-            </Button>
+            <ButtonCancel onClick={cancelClick}>x</ButtonCancel>
           </div>
 
           <form onSubmit={formik.handleSubmit}>
@@ -112,13 +119,7 @@ export const RegisterModal: FC<RegisterModalPropsType> = ({
             />
 
             <div className="flex flex-row justify-evenly items-center py-5">
-              <Button
-                background={false}
-                onClick={() => {
-                  close();
-                  loginOpen();
-                }}
-              >
+              <Button background={false} onClick={signInClick}>
                 Try logging in
               </Button>
               <Button background type="submit">

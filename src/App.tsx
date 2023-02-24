@@ -3,7 +3,7 @@ import { RoutesNames } from '@/routes';
 
 export const App = () => {
   return (
-    <div className="flex justify-center items-center h-full w-screen">
+    <div className="flex justify-center items-center h-full">
       <BrowserRouter>
         <RoutesNames />
       </BrowserRouter>

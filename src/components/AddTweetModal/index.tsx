@@ -1,14 +1,48 @@
-import React, { FC } from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 import { Modal } from 'react-overlays';
 import { Text } from '@shared/Text';
 import { Button } from '@shared/Button';
+import { ButtonCancel } from '@shared/ButtonCancel';
 import { AddTweetModalPropsType } from '@/components/AddTweetModal/type';
+import { getCurrentDate } from '@/helpers/getCurrentDate';
+import { IUser } from '@/context/userContext';
+import { getDataFromLS } from '@/helpers/getStartUsers';
 
 export const AddTweetModal: FC<AddTweetModalPropsType> = ({
   isOpen,
   renderBackdrop,
   close,
 }) => {
+  const allUsers = getDataFromLS('theAllUsers');
+  const currentUser = getDataFromLS('currentUser');
+
+  const activeUser = allUsers.find(
+    (person: IUser) => person.username === currentUser
+  );
+
+  const [value, setValue] = useState('');
+
+  const addTweet = () => {
+    activeUser.tweets.unshift({
+      text: value,
+      likes: [],
+      date: getCurrentDate(),
+    });
+
+    localStorage.setItem('theAllUsers', JSON.stringify(allUsers));
+    setValue('');
+    close();
+  };
+
+  const cancelClick = () => {
+    setValue('');
+    close();
+  };
+
+  const changeTextClick = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setValue(e.target.value);
+  };
+
   return (
     <Modal
       className="fixed z-10 top-0 left-0 bottom-0 right-0"
@@ -19,9 +53,7 @@ export const AddTweetModal: FC<AddTweetModalPropsType> = ({
         <div className="bg-amber-50 rounded-3xl p-5 w-1/4">
           <div className="flex flex-row justify-between items-center py-2">
             <Text>Add tweet</Text>
-            <Button background onClick={() => close()}>
-              x
-            </Button>
+            <ButtonCancel onClick={cancelClick}>x</ButtonCancel>
           </div>
 
           <label
@@ -35,16 +67,12 @@ export const AddTweetModal: FC<AddTweetModalPropsType> = ({
             rows={4}
             className="block p-2.5 w-full text-sm text-gray-900 bg-lime-200 rounded-lg border border-gray-300 focus:ring-lime-500 focus:border-lime-500 "
             placeholder="Write your thoughts here..."
+            value={value}
+            onChange={changeTextClick}
           />
 
           <div className="flex flex-row justify-evenly items-center py-5">
-            <Button
-              background
-              type="button"
-              onClick={() => {
-                console.log('Add');
-              }}
-            >
+            <Button background type="button" onClick={addTweet}>
               Add
             </Button>
           </div>

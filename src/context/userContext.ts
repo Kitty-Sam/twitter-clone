@@ -5,9 +5,10 @@ export interface ITweet {
   likes: {
     userId: number;
   }[];
+  date: string;
 }
 export interface IUser {
-  id: number;
+  id: string;
   avatar?: string;
   bgImage?: string;
   username: string;

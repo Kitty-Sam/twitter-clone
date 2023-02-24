@@ -5,12 +5,9 @@ import { Button } from '@shared/Button';
 import { Input } from '@shared/Input';
 import { useFormik } from 'formik';
 import { Checkbox } from '@shared/Checkbox';
+import { ButtonCancel } from '@shared/ButtonCancel';
 import { LoginModalPropsType } from '@/components/LoginModal/type';
-import {
-  getAllUsers,
-  getCredential,
-  getRememberedUsers,
-} from '@/helpers/getStartUsers';
+import { getDataFromLS } from '@/helpers/getStartUsers';
 import { IUser } from '@/context/userContext';
 
 export const LoginModal: FC<LoginModalPropsType> = ({
@@ -20,9 +17,9 @@ export const LoginModal: FC<LoginModalPropsType> = ({
   registerOpen,
 }) => {
   const [isRemembered, setIsRemembered] = useState(false);
-  const [usersLS] = useState(getRememberedUsers('rememberedUsers'));
-  const credential = getCredential('credential');
-  const addUsers = getAllUsers('theAllUsers');
+  const [usersLS] = useState(getDataFromLS('rememberedUsers'));
+  const credential = getDataFromLS('credential');
+  const addUsers = getDataFromLS('theAllUsers');
 
   const formik = useFormik({
     initialValues: {
@@ -61,6 +58,23 @@ export const LoginModal: FC<LoginModalPropsType> = ({
     },
   });
 
+  const cancelClick = () => {
+    formik.resetForm();
+    close();
+    setIsRemembered(false);
+  };
+
+  const checkBoxToggle = () => {
+    setIsRemembered(!isRemembered);
+  };
+
+  const signUpClick = () => {
+    formik.resetForm();
+    setIsRemembered(false);
+    close();
+    registerOpen();
+  };
+
   return (
     <Modal
       className="fixed z-10 top-0 left-0 bottom-0 right-0"
@@ -71,9 +85,7 @@ export const LoginModal: FC<LoginModalPropsType> = ({
         <div className="bg-amber-50 rounded-3xl p-5 w-1/4">
           <div className="flex flex-row justify-between items-center py-2">
             <Text>Login</Text>
-            <Button background onClick={() => close()}>
-              x
-            </Button>
+            <ButtonCancel onClick={cancelClick}>x</ButtonCancel>
           </div>
           <form onSubmit={formik.handleSubmit}>
             <Input
@@ -93,17 +105,11 @@ export const LoginModal: FC<LoginModalPropsType> = ({
             <Checkbox
               label="Remember me"
               value={isRemembered}
-              onChange={() => setIsRemembered(!isRemembered)}
+              onChange={checkBoxToggle}
             />
             <div className="flex flex-row justify-evenly items-center py-5">
               <p>Do have an account?</p>
-              <Button
-                background={false}
-                onClick={() => {
-                  close();
-                  registerOpen();
-                }}
-              >
+              <Button background={false} onClick={signUpClick}>
                 Sign up
               </Button>
               <Button background type="submit">

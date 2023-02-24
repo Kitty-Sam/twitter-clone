@@ -2,7 +2,7 @@ import { avatar, cover } from '@/constants/images';
 
 export const users = [
   {
-    id: 1,
+    id: '1',
     avatar:
       'https://www.theladders.com/wp-content/uploads/Lion_030818-1122x900.jpg',
     bgImage:
@@ -17,10 +17,10 @@ export const users = [
         text: 'Hello World! The first Tweet from Dima:)',
         likes: [
           {
-            userId: 1,
+            userId: '1',
           },
           {
-            userId: 3,
+            userId: '3',
           },
         ],
         date: '2023-01-05',
@@ -28,7 +28,7 @@ export const users = [
     ],
   },
   {
-    id: 2,
+    id: '2',
     avatar:
       'https://cdn.pixabay.com/photo/2014/03/29/09/17/cat-300572__340.jpg',
     bgImage: cover,
@@ -42,7 +42,7 @@ export const users = [
         text: 'Hello World! The first Tweet from Egor :)',
         likes: [
           {
-            userId: 3,
+            userId: '3',
           },
         ],
         date: '2023-01-03',
@@ -50,7 +50,7 @@ export const users = [
     ],
   },
   {
-    id: 3,
+    id: '3',
     avatar,
     bgImage: cover,
     username: 'Kitty-Sam',
@@ -63,7 +63,7 @@ export const users = [
         text: 'Hello World! The first Tweet from Kitty:)',
         likes: [
           {
-            userId: 1,
+            userId: '1',
           },
         ],
         date: '2023-01-04',
@@ -72,13 +72,10 @@ export const users = [
         text: 'Hello World! The second Tweet from Kitty:)',
         likes: [
           {
-            userId: 1,
+            userId: '1',
           },
           {
-            userId: 0,
-          },
-          {
-            userId: 2,
+            userId: '2',
           },
         ],
         date: '2023-05-04',
@@ -87,13 +84,10 @@ export const users = [
         text: 'Hello World! The third Tweet from Kitty:)',
         likes: [
           {
-            userId: 1,
+            userId: '1',
           },
           {
-            userId: 0,
-          },
-          {
-            userId: 2,
+            userId: '2',
           },
         ],
         date: '2023-07-04',
@@ -102,13 +96,11 @@ export const users = [
         text: 'Hello World! The third Tweet from Kitty:)',
         likes: [
           {
-            userId: 1,
+            userId: '1',
           },
+
           {
-            userId: 0,
-          },
-          {
-            userId: 2,
+            userId: '2',
           },
         ],
         date: '2023-07-04',
@@ -117,13 +109,11 @@ export const users = [
         text: 'Hello World! The third Tweet from Kitty:)',
         likes: [
           {
-            userId: 1,
+            userId: '1',
           },
+
           {
-            userId: 0,
-          },
-          {
-            userId: 2,
+            userId: '2',
           },
         ],
         date: '2023-07-04',
@@ -131,7 +121,7 @@ export const users = [
     ],
   },
   {
-    id: 4,
+    id: '4',
     avatar:
       'https://hips.hearstapps.com/hmg-prod/images/smartest-dog-breeds-lead-1587757081.jpg',
     bgImage:
@@ -146,7 +136,7 @@ export const users = [
         text: 'Hello World! My first Tweet :)',
         likes: [
           {
-            userId: 3,
+            userId: '3',
           },
         ],
         date: '2023-01-04',
