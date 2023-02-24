@@ -3,5 +3,7 @@ export interface TweetPropsType {
   name: string;
   nickName: string;
   date: string;
-  count: number;
+  count: { userId: number }[];
+  currentUserId: number;
+  avatarTweet: string;
 }

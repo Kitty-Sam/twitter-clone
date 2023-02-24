@@ -6,7 +6,12 @@ import { Input } from '@shared/Input';
 import { useFormik } from 'formik';
 import { Checkbox } from '@shared/Checkbox';
 import { LoginModalPropsType } from '@/components/LoginModal/type';
-import { getStartUsers } from '@/helpers/getStartUsers';
+import {
+  getAllUsers,
+  getCredential,
+  getRememberedUsers,
+} from '@/helpers/getStartUsers';
+import { IUser } from '@/context/userContext';
 
 export const LoginModal: FC<LoginModalPropsType> = ({
   isOpen,
@@ -15,7 +20,9 @@ export const LoginModal: FC<LoginModalPropsType> = ({
   registerOpen,
 }) => {
   const [isRemembered, setIsRemembered] = useState(false);
-  const [usersLS] = useState(getStartUsers('users'));
+  const [usersLS] = useState(getRememberedUsers('rememberedUsers'));
+  const credential = getCredential('credential');
+  const addUsers = getAllUsers('theAllUsers');
 
   const formik = useFormik({
     initialValues: {
@@ -23,14 +30,34 @@ export const LoginModal: FC<LoginModalPropsType> = ({
       password: '',
     },
     onSubmit: ({ username, password }) => {
-      localStorage.setItem('currentUser', JSON.stringify(username));
-
       if (isRemembered) {
         const withNewUser = usersLS.concat(username);
-        localStorage.setItem('users', JSON.stringify(withNewUser));
+        localStorage.setItem('rememberedUsers', JSON.stringify(withNewUser));
+        if (
+          (credential.username === username &&
+            credential.password === password) ||
+          addUsers.find((person: IUser) => person.username === username)
+        ) {
+          localStorage.setItem('currentUser', JSON.stringify(username));
+          formik.resetForm();
+          setIsRemembered(false);
+          close();
+        }
+      }
+
+      if (
+        (credential.username === username &&
+          credential.password === password) ||
+        addUsers.find((person: IUser) => person.username === username)
+      ) {
+        localStorage.setItem('currentUser', JSON.stringify(username));
         formik.resetForm();
+        setIsRemembered(false);
         close();
       }
+
+      formik.resetForm();
+      setIsRemembered(false);
     },
   });
 

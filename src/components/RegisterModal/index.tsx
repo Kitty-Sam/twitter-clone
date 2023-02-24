@@ -5,8 +5,10 @@ import { Button } from '@shared/Button';
 import { Input } from '@shared/Input';
 import { useFormik } from 'formik';
 import { RegisterModalPropsType } from '@/components/RegisterModal/type';
-import { users } from '@/constants/db';
 import { getCurrentDate } from '@/helpers/getCurrentDate';
+import { getAllUsers } from '@/helpers/getStartUsers';
+import { useForceUpdate } from '@/hooks/useForceUpdate';
+import { avatarNone, coverNone } from '@/constants/images';
 
 export const RegisterModal: FC<RegisterModalPropsType> = ({
   renderBackdrop,
@@ -15,6 +17,7 @@ export const RegisterModal: FC<RegisterModalPropsType> = ({
   isOpen,
 }) => {
   const id = Date.now();
+  const forceUpdate = useForceUpdate();
 
   const formik = useFormik({
     initialValues: {
@@ -24,19 +27,35 @@ export const RegisterModal: FC<RegisterModalPropsType> = ({
       location: '',
       password: '',
     },
-    onSubmit: ({ username, firstName, lastName, location }) => {
-      users.push({
+    onSubmit: ({ username, firstName, lastName, location, password }) => {
+      localStorage.setItem(
+        'credential',
+        JSON.stringify({ username, password })
+      );
+      const usersFromLs = getAllUsers('theAllUsers');
+
+      const withNewUser = usersFromLs.concat({
         id,
         location,
         firstName,
         lastName,
         username,
-        avatar: '',
-        bgImage: '',
+        avatar: avatarNone,
+        bgImage: coverNone,
         joined: getCurrentDate(),
-        tweets: [],
+        tweets: [
+          {
+            text: 'no tweet',
+            likes: [],
+            date: getCurrentDate(),
+          },
+        ],
       });
+
+      localStorage.setItem('theAllUsers', JSON.stringify(withNewUser));
       formik.resetForm();
+      close();
+      forceUpdate();
     },
   });
 
@@ -72,7 +91,7 @@ export const RegisterModal: FC<RegisterModalPropsType> = ({
             />
             <Input
               type="text"
-              id="nickName"
+              id="username"
               onChange={formik.handleChange}
               value={formik.values.username}
               placeholder="User name"

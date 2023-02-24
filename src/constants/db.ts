@@ -1,8 +1,12 @@
+import { avatar, cover } from '@/constants/images';
+
 export const users = [
   {
     id: 1,
-    avatar: 'www.example.url/picture.png',
-    bgImage: 'www.example.url/picture.png',
+    avatar:
+      'https://www.theladders.com/wp-content/uploads/Lion_030818-1122x900.jpg',
+    bgImage:
+      'https://www.decolore.net/wp-content/uploads/2018/08/piana-bubbles-liquid-abstract.jpg',
     username: 'skromez',
     firstName: 'Dmitrii',
     lastName: 'Novikov',
@@ -16,7 +20,7 @@ export const users = [
             userId: 1,
           },
           {
-            userId: 2,
+            userId: 3,
           },
         ],
         date: '2023-01-05',
@@ -25,8 +29,9 @@ export const users = [
   },
   {
     id: 2,
-    avatar: 'www.example.url/picture.png',
-    bgImage: 'www.example.url/picture.png',
+    avatar:
+      'https://cdn.pixabay.com/photo/2014/03/29/09/17/cat-300572__340.jpg',
+    bgImage: cover,
     username: 'vonubat',
     firstName: 'Egor',
     lastName: 'Tabunov',
@@ -37,7 +42,7 @@ export const users = [
         text: 'Hello World! The first Tweet from Egor :)',
         likes: [
           {
-            userId: 1,
+            userId: 3,
           },
         ],
         date: '2023-01-03',
@@ -46,6 +51,8 @@ export const users = [
   },
   {
     id: 3,
+    avatar,
+    bgImage: cover,
     username: 'Kitty-Sam',
     firstName: 'Kate',
     lastName: 'Samuta',
@@ -125,8 +132,10 @@ export const users = [
   },
   {
     id: 4,
-    avatar: 'www.example.url/picture.png',
-    bgImage: 'www.example.url/picture.png',
+    avatar:
+      'https://hips.hearstapps.com/hmg-prod/images/smartest-dog-breeds-lead-1587757081.jpg',
+    bgImage:
+      'https://i0.wp.com/nashvillewineauction.com/wp-content/uploads/2015/12/Pink-Bubbles.jpg?ssl=1',
     username: 'Lin',
     firstName: 'Lou',
     lastName: '',
@@ -137,7 +146,7 @@ export const users = [
         text: 'Hello World! My first Tweet :)',
         likes: [
           {
-            userId: 1,
+            userId: 3,
           },
         ],
         date: '2023-01-04',
