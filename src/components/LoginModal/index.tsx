@@ -2,11 +2,13 @@ import React, { FC, useState } from 'react';
 import { Modal } from 'react-overlays';
 import { Text } from '@shared/Text';
 import { Button } from '@shared/Button';
-import { Input } from '@shared/Input';
-import { useFormik } from 'formik';
 import { Checkbox } from '@shared/Checkbox';
 import { ButtonCancel } from '@shared/ButtonCancel';
-import { LoginModalPropsType } from '@/components/LoginModal/type';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import {
+  LoginInputsType,
+  LoginModalPropsType,
+} from '@/components/LoginModal/type';
 import { getDataFromLS } from '@/helpers/getStartUsers';
 import { IUser } from '@/context/userContext';
 
@@ -21,45 +23,49 @@ export const LoginModal: FC<LoginModalPropsType> = ({
   const credential = getDataFromLS('credential');
   const addUsers = getDataFromLS('theAllUsers');
 
-  const formik = useFormik({
-    initialValues: {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<LoginInputsType>({
+    defaultValues: {
       username: '',
       password: '',
     },
-    onSubmit: ({ username, password }) => {
-      if (isRemembered) {
-        const withNewUser = usersLS.concat(username);
-        localStorage.setItem('rememberedUsers', JSON.stringify(withNewUser));
-        if (
-          (credential.username === username &&
-            credential.password === password) ||
-          addUsers.find((person: IUser) => person.username === username)
-        ) {
-          localStorage.setItem('currentUser', JSON.stringify(username));
-          formik.resetForm();
-          setIsRemembered(false);
-          close();
-        }
-      }
-
+  });
+  const onSubmit: SubmitHandler<LoginInputsType> = ({ username, password }) => {
+    if (isRemembered) {
+      const withNewUser = usersLS.concat(username);
+      localStorage.setItem('rememberedUsers', JSON.stringify(withNewUser));
       if (
         (credential.username === username &&
           credential.password === password) ||
         addUsers.find((person: IUser) => person.username === username)
       ) {
         localStorage.setItem('currentUser', JSON.stringify(username));
-        formik.resetForm();
+        reset();
         setIsRemembered(false);
         close();
       }
+    }
 
-      formik.resetForm();
+    if (
+      (credential.username === username && credential.password === password) ||
+      addUsers.find((person: IUser) => person.username === username)
+    ) {
+      localStorage.setItem('currentUser', JSON.stringify(username));
+      reset();
       setIsRemembered(false);
-    },
-  });
+      close();
+    }
+
+    reset();
+    setIsRemembered(false);
+  };
 
   const cancelClick = () => {
-    formik.resetForm();
+    reset();
     close();
     setIsRemembered(false);
   };
@@ -69,7 +75,7 @@ export const LoginModal: FC<LoginModalPropsType> = ({
   };
 
   const signUpClick = () => {
-    formik.resetForm();
+    reset();
     setIsRemembered(false);
     close();
     registerOpen();
@@ -87,21 +93,22 @@ export const LoginModal: FC<LoginModalPropsType> = ({
             <Text>Login</Text>
             <ButtonCancel onClick={cancelClick}>x</ButtonCancel>
           </div>
-          <form onSubmit={formik.handleSubmit}>
-            <Input
-              id="username"
-              type="text"
-              onChange={formik.handleChange}
-              value={formik.values.username}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <input
+              {...register('username', { required: 'This is required' })}
               placeholder="user name"
+              className="w-full bg-lime-200 rounded text-slate-800 my-2 p-3 border-transparent focus:border-transparent focus:ring-0"
             />
-            <Input
-              id="password"
-              type="password"
-              onChange={formik.handleChange}
-              value={formik.values.password}
+            <p className="italic text-red-500">{errors.username?.message}</p>
+            <input
+              {...register('password', {
+                required: 'This is required',
+                minLength: 3,
+              })}
               placeholder="password"
+              className="w-full bg-lime-200 rounded text-slate-800 my-2 p-3 border-transparent focus:border-transparent focus:ring-0"
             />
+            <p className="italic text-red-500">{errors.password?.message}</p>
             <Checkbox
               label="Remember me"
               value={isRemembered}
