@@ -4,3 +4,11 @@ export interface RegisterModalPropsType {
   close: () => void;
   loginOpen: () => void;
 }
+
+export interface RegisterInputsType {
+  firstName: string;
+  lastName: string;
+  username: string;
+  location: string;
+  password: string;
+}

@@ -2,11 +2,13 @@ import React, { FC } from 'react';
 import { Modal } from 'react-overlays';
 import { Text } from '@shared/Text';
 import { Button } from '@shared/Button';
-import { Input } from '@shared/Input';
-import { useFormik } from 'formik';
 import { ButtonCancel } from '@shared/ButtonCancel';
 import { nanoid } from 'nanoid';
-import { RegisterModalPropsType } from '@/components/RegisterModal/type';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import {
+  RegisterInputsType,
+  RegisterModalPropsType,
+} from '@/components/RegisterModal/type';
 import { getCurrentDate } from '@/helpers/getCurrentDate';
 import { useForceUpdate } from '@/hooks/useForceUpdate';
 import { avatarNone, coverNone } from '@/constants/images';
@@ -21,49 +23,56 @@ export const RegisterModal: FC<RegisterModalPropsType> = ({
   const id = nanoid(10);
   const forceUpdate = useForceUpdate();
 
-  const formik = useFormik({
-    initialValues: {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<RegisterInputsType>({
+    defaultValues: {
+      username: '',
+      password: '',
+      location: '',
       firstName: '',
       lastName: '',
-      username: '',
-      location: '',
-      password: '',
-    },
-    onSubmit: ({ username, firstName, lastName, location, password }) => {
-      localStorage.setItem(
-        'credential',
-        JSON.stringify({ username, password })
-      );
-      const usersFromLs = getDataFromLS('theAllUsers');
-
-      // localStorage.setItem('currentUser', JSON.stringify(id));
-
-      const withNewUser = usersFromLs.concat({
-        id,
-        location,
-        firstName,
-        lastName,
-        username,
-        avatar: avatarNone,
-        bgImage: coverNone,
-        joined: getCurrentDate(),
-        tweets: [],
-      });
-
-      localStorage.setItem('theAllUsers', JSON.stringify(withNewUser));
-      formik.resetForm();
-      close();
-      forceUpdate();
     },
   });
 
+  const onSubmit: SubmitHandler<RegisterInputsType> = ({
+    location,
+    firstName,
+    lastName,
+    username,
+    password,
+  }) => {
+    localStorage.setItem('credential', JSON.stringify({ username, password }));
+    const usersFromLs = getDataFromLS('theAllUsers');
+
+    const withNewUser = usersFromLs.concat({
+      id,
+      location,
+      firstName,
+      lastName,
+      username,
+      avatar: avatarNone,
+      bgImage: coverNone,
+      joined: getCurrentDate(),
+      tweets: [],
+    });
+
+    localStorage.setItem('theAllUsers', JSON.stringify(withNewUser));
+    reset();
+    close();
+    forceUpdate();
+  };
+
   const cancelClick = () => {
-    formik.resetForm();
+    reset();
     close();
   };
 
   const signInClick = () => {
-    formik.resetForm();
+    reset();
     close();
     loginOpen();
   };
@@ -81,42 +90,44 @@ export const RegisterModal: FC<RegisterModalPropsType> = ({
             <ButtonCancel onClick={cancelClick}>x</ButtonCancel>
           </div>
 
-          <form onSubmit={formik.handleSubmit}>
-            <Input
-              type="text"
-              id="firstName"
-              onChange={formik.handleChange}
-              value={formik.values.firstName}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <input
+              {...register('firstName', { required: 'This is required' })}
               placeholder="First Name"
+              className="w-full bg-lime-200 rounded text-slate-800 my-2 p-3 border-transparent focus:border-transparent focus:ring-0"
             />
-            <Input
-              type="text"
-              id="lastName"
-              onChange={formik.handleChange}
-              value={formik.values.lastName}
+            <p className="italic text-red-500">{errors.firstName?.message}</p>
+
+            <input
+              {...register('lastName', { required: 'This is required' })}
               placeholder="Last Name"
+              className="w-full bg-lime-200 rounded text-slate-800 my-2 p-3 border-transparent focus:border-transparent focus:ring-0"
             />
-            <Input
-              type="text"
-              id="username"
-              onChange={formik.handleChange}
-              value={formik.values.username}
-              placeholder="User name"
+            <p className="italic text-red-500">{errors.lastName?.message}</p>
+
+            <input
+              {...register('username', { required: 'This is required' })}
+              placeholder="User Name"
+              className="w-full bg-lime-200 rounded text-slate-800 my-2 p-3 border-transparent focus:border-transparent focus:ring-0"
             />
-            <Input
-              type="text"
-              id="location"
-              onChange={formik.handleChange}
-              value={formik.values.location}
+            <p className="italic text-red-500">{errors.username?.message}</p>
+
+            <input
+              {...register('location', { required: 'This is required' })}
               placeholder="Location"
+              className="w-full bg-lime-200 rounded text-slate-800 my-2 p-3 border-transparent focus:border-transparent focus:ring-0"
             />
-            <Input
-              type="password"
-              id="password"
-              onChange={formik.handleChange}
-              value={formik.values.password}
+            <p className="italic text-red-500">{errors.location?.message}</p>
+
+            <input
+              {...register('password', {
+                required: 'This is required',
+                minLength: 3,
+              })}
               placeholder="Password"
+              className="w-full bg-lime-200 rounded text-slate-800 my-2 p-3 border-transparent focus:border-transparent focus:ring-0"
             />
+            <p className="italic text-red-500">{errors.password?.message}</p>
 
             <div className="flex flex-row justify-evenly items-center py-5">
               <Button background={false} onClick={signInClick}>
