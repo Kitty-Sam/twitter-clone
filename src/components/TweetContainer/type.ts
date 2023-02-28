@@ -5,5 +5,6 @@ export interface TweetPropsType {
   date: string;
   count: { userId: string }[];
   currentUserId: string;
-  avatarTweet: string;
+  avatarTweet?: string;
+  isAuth: boolean;
 }

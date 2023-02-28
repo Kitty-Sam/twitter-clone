@@ -37,6 +37,7 @@ module.exports = {
         'react/no-array-index-key': 'off',
         'react/jsx-no-constructed-context-values': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',
-        'no-nested-ternary': 'off'
+        'no-nested-ternary': 'off',
+        'no-param-reassign': 'off'
     },
 }

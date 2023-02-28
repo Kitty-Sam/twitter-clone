@@ -2,9 +2,12 @@ import React from 'react';
 import { Button } from '@shared/Button';
 
 import { GiWillowTree } from 'react-icons/all';
+import { useNavigate } from 'react-router-dom';
 import { useOpen } from '@/hooks/useOpen';
 import { LoginModal } from '@/components/LoginModal';
 import { RegisterModal } from '@/components/RegisterModal';
+import { removeCurrentLoggedUser } from '@/store/reducers/userSlice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 
 export const Header = () => {
   const login = useOpen(false);
@@ -23,19 +26,43 @@ export const Header = () => {
     />
   );
 
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const currentLoggedUser = useAppSelector(
+    (state) => state.users.currentLoggedUser
+  );
+
   return (
     <div className="p-4 w-screen bg-white">
       <div className="flex flex-row justify-around">
-        <GiWillowTree className="" size={38} color="rgb(132 204 22)" />
-        <div>
-          <Button background={false} onClick={loginOpenClick}>
-            Login
-          </Button>
+        <GiWillowTree
+          className=""
+          size={38}
+          color="rgb(132 204 22)"
+          onClick={() => navigate('/', { replace: true })}
+        />
 
-          <Button background onClick={registerOpenClick}>
-            Sign up
+        {currentLoggedUser ? (
+          <Button
+            background
+            onClick={() => {
+              dispatch(removeCurrentLoggedUser());
+            }}
+          >
+            Log out
           </Button>
-        </div>
+        ) : (
+          <div>
+            <Button background={false} onClick={loginOpenClick}>
+              Login
+            </Button>
+
+            <Button background onClick={registerOpenClick}>
+              Sign up
+            </Button>
+          </div>
+        )}
       </div>
       <LoginModal
         isOpen={login.isOpen}

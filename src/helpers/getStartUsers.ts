@@ -12,12 +12,12 @@ export const getDataFromLS = (key: string) => {
       const currentUserLS = JSON.parse(localStorage.getItem(key));
       return currentUserLS || '';
     }
-    case 'theAllUsers': {
+    case 'allUsers': {
       // @ts-ignore
       const usersLS = JSON.parse(localStorage.getItem(key));
       return usersLS || users;
     }
-    case 'credential': {
+    case 'credentials': {
       // @ts-ignore
       const credentials = JSON.parse(localStorage.getItem(key));
       return credentials || '';

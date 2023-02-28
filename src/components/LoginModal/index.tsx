@@ -5,12 +5,14 @@ import { Button } from '@shared/Button';
 import { Checkbox } from '@shared/Checkbox';
 import { ButtonCancel } from '@shared/ButtonCancel';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import {
   LoginInputsType,
   LoginModalPropsType,
 } from '@/components/LoginModal/type';
-import { getDataFromLS } from '@/helpers/getStartUsers';
 import { IUser } from '@/context/userContext';
+import { currentLoggedUser } from '@/store/reducers/userSlice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 
 export const LoginModal: FC<LoginModalPropsType> = ({
   isOpen,
@@ -19,9 +21,11 @@ export const LoginModal: FC<LoginModalPropsType> = ({
   registerOpen,
 }) => {
   const [isRemembered, setIsRemembered] = useState(false);
-  const [usersLS] = useState(getDataFromLS('rememberedUsers'));
-  const credential = getDataFromLS('credential');
-  const addUsers = getDataFromLS('theAllUsers');
+  const dispatch = useAppDispatch();
+  const credentials = useAppSelector((state) => state.users.credentials);
+  const allUsers = useAppSelector((state) => state.users.users);
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -36,25 +40,26 @@ export const LoginModal: FC<LoginModalPropsType> = ({
   });
   const onSubmit: SubmitHandler<LoginInputsType> = ({ username, password }) => {
     if (isRemembered) {
-      const withNewUser = usersLS.concat(username);
-      localStorage.setItem('rememberedUsers', JSON.stringify(withNewUser));
+      dispatch(currentLoggedUser(username));
+      // const updatedUsers = usersLS.concat(username);
+      // localStorage.setItem('rememberedUsers', JSON.stringify(updatedUsers));
       if (
-        (credential.username === username &&
-          credential.password === password) ||
-        addUsers.find((person: IUser) => person.username === username)
+        (credentials.username === username &&
+          credentials.password === password) ||
+        allUsers.find((person: IUser) => person.username === username)
       ) {
-        localStorage.setItem('currentUser', JSON.stringify(username));
+        dispatch(currentLoggedUser(username));
         reset();
         setIsRemembered(false);
-        close();
       }
     }
-
     if (
-      (credential.username === username && credential.password === password) ||
-      addUsers.find((person: IUser) => person.username === username)
+      (credentials.username === username &&
+        credentials.password === password) ||
+      allUsers.find((person: IUser) => person.username === username)
     ) {
-      localStorage.setItem('currentUser', JSON.stringify(username));
+      dispatch(currentLoggedUser(username));
+      navigate(`/${username}`, { replace: true });
       reset();
       setIsRemembered(false);
       close();

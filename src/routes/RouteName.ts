@@ -1,5 +1,5 @@
 export enum RootNameRoutes {
-  USER = '/user',
+  USER = ':userName',
   PAGE_NOT_FOUND = '*',
   LAUNCH = '/',
 }

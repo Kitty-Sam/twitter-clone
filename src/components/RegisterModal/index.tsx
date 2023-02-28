@@ -10,9 +10,9 @@ import {
   RegisterModalPropsType,
 } from '@/components/RegisterModal/type';
 import { getCurrentDate } from '@/helpers/getCurrentDate';
-import { useForceUpdate } from '@/hooks/useForceUpdate';
 import { avatarNone, coverNone } from '@/constants/images';
-import { getDataFromLS } from '@/helpers/getStartUsers';
+import { useAppDispatch } from '@/store/hooks';
+import { addCredentials, addNewUser } from '@/store/reducers/userSlice';
 
 export const RegisterModal: FC<RegisterModalPropsType> = ({
   renderBackdrop,
@@ -21,7 +21,6 @@ export const RegisterModal: FC<RegisterModalPropsType> = ({
   isOpen,
 }) => {
   const id = nanoid(10);
-  const forceUpdate = useForceUpdate();
 
   const {
     register,
@@ -38,6 +37,8 @@ export const RegisterModal: FC<RegisterModalPropsType> = ({
     },
   });
 
+  const dispatch = useAppDispatch();
+
   const onSubmit: SubmitHandler<RegisterInputsType> = ({
     location,
     firstName,
@@ -45,10 +46,9 @@ export const RegisterModal: FC<RegisterModalPropsType> = ({
     username,
     password,
   }) => {
-    localStorage.setItem('credential', JSON.stringify({ username, password }));
-    const usersFromLs = getDataFromLS('theAllUsers');
+    dispatch(addCredentials({ username, password }));
 
-    const withNewUser = usersFromLs.concat({
+    const newUser = {
       id,
       location,
       firstName,
@@ -58,12 +58,10 @@ export const RegisterModal: FC<RegisterModalPropsType> = ({
       bgImage: coverNone,
       joined: getCurrentDate(),
       tweets: [],
-    });
-
-    localStorage.setItem('theAllUsers', JSON.stringify(withNewUser));
+    };
+    dispatch(addNewUser(newUser));
     reset();
     close();
-    forceUpdate();
   };
 
   const cancelClick = () => {

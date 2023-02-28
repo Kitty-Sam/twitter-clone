@@ -5,31 +5,33 @@ import { Button } from '@shared/Button';
 import { ButtonCancel } from '@shared/ButtonCancel';
 import { AddTweetModalPropsType } from '@/components/AddTweetModal/type';
 import { getCurrentDate } from '@/helpers/getCurrentDate';
-import { IUser } from '@/context/userContext';
-import { getDataFromLS } from '@/helpers/getStartUsers';
+import { addTweetForLoggedUser } from '@/store/reducers/userSlice';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 
 export const AddTweetModal: FC<AddTweetModalPropsType> = ({
   isOpen,
   renderBackdrop,
   close,
 }) => {
-  const allUsers = getDataFromLS('theAllUsers');
-  const currentUser = getDataFromLS('currentUser');
-
-  const activeUser = allUsers.find(
-    (person: IUser) => person.username === currentUser
+  const dispatch = useAppDispatch();
+  const currentLoggedUser = useAppSelector(
+    (state) => state.users.currentLoggedUser
   );
-
   const [value, setValue] = useState('');
 
   const addTweet = () => {
-    activeUser.tweets.unshift({
-      text: value,
-      likes: [],
-      date: getCurrentDate(),
-    });
-
-    localStorage.setItem('theAllUsers', JSON.stringify(allUsers));
+    if (currentLoggedUser) {
+      dispatch(
+        addTweetForLoggedUser({
+          currentLoggedUser,
+          tweet: {
+            text: value,
+            likes: [],
+            date: getCurrentDate(),
+          },
+        })
+      );
+    }
     setValue('');
     close();
   };

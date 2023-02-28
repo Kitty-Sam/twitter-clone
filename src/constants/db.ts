@@ -6,8 +6,9 @@ export const users: IUser[] = [
     id: '1',
     avatar:
       'https://www.theladders.com/wp-content/uploads/Lion_030818-1122x900.jpg',
-    bgImage:
-      'https://www.decolore.net/wp-content/uploads/2018/08/piana-bubbles-liquid-abstract.jpg',
+    // bgImage:
+    //   'https://www.decolore.net/wp-content/uploads/2018/08/piana-bubbles-liquid-abstract.jpg',
+    bgImage: cover,
     username: 'skromez',
     firstName: 'Dmitrii',
     lastName: 'Novikov',
@@ -125,8 +126,9 @@ export const users: IUser[] = [
     id: '4',
     avatar:
       'https://hips.hearstapps.com/hmg-prod/images/smartest-dog-breeds-lead-1587757081.jpg',
-    bgImage:
-      'https://i0.wp.com/nashvillewineauction.com/wp-content/uploads/2015/12/Pink-Bubbles.jpg?ssl=1',
+    bgImage: cover,
+    // bgImage:
+    //   'https://i0.wp.com/nashvillewineauction.com/wp-content/uploads/2015/12/Pink-Bubbles.jpg?ssl=1',
     username: 'Lin',
     firstName: 'Lou',
     lastName: '',
