@@ -3,7 +3,7 @@ import { createContext } from 'react';
 export interface ITweet {
   text: string;
   likes: {
-    userId: number;
+    userId: string;
   }[];
   date: string;
 }
@@ -13,6 +13,7 @@ export interface IUser {
   bgImage?: string;
   username: string;
   firstName: string;
+  lastName: string;
   location: string;
   joined: string;
   tweets: ITweet[];

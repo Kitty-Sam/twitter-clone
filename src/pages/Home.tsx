@@ -9,6 +9,7 @@ import { TweetContainer } from '@/components/TweetContainer';
 import { getDataFromLS } from '@/helpers/getStartUsers';
 import { ITweet, IUser } from '@/context/userContext';
 import { useForceUpdate } from '@/hooks/useForceUpdate';
+import { Header } from '@/components/Header';
 
 export const Home = () => {
   const login = useOpen(false);
@@ -56,23 +57,7 @@ export const Home = () => {
 
   return (
     <div className="w-9/12 bg-amber-50  relative">
-      <div className="flex flex-row justify-end px-10 my-5 ">
-        <Button
-          background={false}
-          onClick={loginOpenClick}
-          disabled={currentActiveUser}
-        >
-          Login
-        </Button>
-
-        <Button
-          background
-          onClick={registerOpenClick}
-          disabled={currentActiveUser}
-        >
-          Sign up
-        </Button>
-      </div>
+      <Header />
       <div className="bg-amber-50 h-96 mt-5 object-cover">
         <img
           src={currentActiveUser ? currentActiveUser.bgImage : coverNone}

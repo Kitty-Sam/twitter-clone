@@ -1,6 +1,7 @@
 import { avatar, cover } from '@/constants/images';
+import { IUser } from '@/context/userContext';
 
-export const users = [
+export const users: IUser[] = [
   {
     id: '1',
     avatar:

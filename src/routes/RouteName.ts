@@ -1,5 +1,5 @@
 export enum RootNameRoutes {
-  HOME = '/',
+  USER = '/user',
   PAGE_NOT_FOUND = '*',
-  TWEETS = '/tweets',
+  LAUNCH = '/',
 }
