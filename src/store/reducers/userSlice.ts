@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ITweet, IUser } from '@/context/userContext';
+import { ITweet, IUser } from '@/context';
 import { users } from '@/constants/db';
 
 export interface UserStateType {
@@ -33,7 +33,7 @@ export const userSlice = createSlice({
     ) => {
       state.users
         .filter((user) => user.username === action.payload.currentLoggedUser)[0]
-        .tweets.unshift(action.payload.tweet);
+        .tweets.push(action.payload.tweet);
     },
     currentLoggedUser: (state, action: PayloadAction<string>) => {
       state.currentLoggedUser = action.payload;

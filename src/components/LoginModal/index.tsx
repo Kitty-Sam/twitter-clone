@@ -9,9 +9,10 @@ import {
   LoginInputsType,
   LoginModalPropsType,
 } from '@/components/LoginModal/type';
-import { IUser } from '@/context/userContext';
+import { IUser } from '@/context';
 import { currentLoggedUser } from '@/store/reducers/userSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { getAllUsers, getCredentials } from '@/store/selectors';
 
 export const LoginModal: FC<LoginModalPropsType> = ({
   isOpen,
@@ -20,8 +21,8 @@ export const LoginModal: FC<LoginModalPropsType> = ({
   registerOpen,
 }) => {
   const dispatch = useAppDispatch();
-  const credentials = useAppSelector((state) => state.users.credentials);
-  const allUsers = useAppSelector((state) => state.users.users);
+  const credentials = useAppSelector(getCredentials);
+  const allUsers = useAppSelector(getAllUsers);
 
   const navigate = useNavigate();
 

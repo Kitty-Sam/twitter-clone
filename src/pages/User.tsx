@@ -6,21 +6,21 @@ import { Title } from '@shared/Title';
 import { BsCalendar3, FaLocationArrow } from 'react-icons/all';
 import { Header } from '@/components/Header';
 import { avatarNone, coverNone, signUp } from '@/constants/images';
-import { ITweet, IUser } from '@/context/userContext';
+
 import { TweetContainer } from '@/components/TweetContainer';
 import { useAppSelector } from '@/store/hooks';
 import { useOpen } from '@/hooks/useOpen';
 import { AddTweetModal } from '@/components/AddTweetModal';
 import { rebuildDate } from '@/helpers/getCurrentDate';
+import { ITweet, IUser } from '@/context';
+import { getAllUsers, getCurrentLoggedUser } from '@/store/selectors';
 
 export const User = () => {
   const tweet = useOpen(false);
   const { userName } = useParams();
 
-  const allUsers = useAppSelector((state) => state.users.users);
-  const currentLoggedUser = useAppSelector(
-    (state) => state.users.currentLoggedUser
-  );
+  const allUsers = useAppSelector(getAllUsers);
+  const currentLoggedUser = useAppSelector(getCurrentLoggedUser);
 
   const renderBackdrop = (props: any) => (
     <div
@@ -32,6 +32,10 @@ export const User = () => {
   const currentUser = allUsers.find(
     (user: IUser) => user.username === userName
   );
+
+  const openAddTweetModal = () => {
+    tweet.onOpen();
+  };
 
   return (
     <div>
@@ -58,8 +62,8 @@ export const User = () => {
             {currentUser && currentUser.tweets.length}
           </p>
         </div>
-        {currentLoggedUser === currentUser!.username && (
-          <Button background onClick={() => tweet.onOpen()}>
+        {currentLoggedUser === currentUser?.username && (
+          <Button background onClick={openAddTweetModal}>
             Add tweet
           </Button>
         )}
@@ -108,7 +112,7 @@ export const User = () => {
                       name={`${currentUser.firstName}  ${currentUser.lastName}`}
                       date={singleTweet.date}
                       currentUserId={currentUser.id}
-                      isAuth={false}
+                      isAuth={!!currentLoggedUser}
                     />
                   )
               )}

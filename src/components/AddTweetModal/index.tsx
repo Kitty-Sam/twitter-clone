@@ -6,31 +6,30 @@ import { TextBold } from '@shared/Text';
 import { AddTweetModalPropsType } from '@/components/AddTweetModal/type';
 import { useAppSelector } from '@/store/hooks';
 import { useTweet } from '@/hooks/useTweet';
+import { getCurrentLoggedUser } from '@/store/selectors';
 
 export const AddTweetModal: FC<AddTweetModalPropsType> = ({
   isOpen,
   renderBackdrop,
   close,
 }) => {
-  const currentLoggedUser = useAppSelector(
-    (state) => state.users.currentLoggedUser!
-  );
-  const [value, setValue] = useState('');
-  const { addTweet, removeTweet } = useTweet(value, currentLoggedUser);
+  const currentLoggedUser = useAppSelector(getCurrentLoggedUser);
+  const [tweetText, setTweetText] = useState('');
+  const { addTweet } = useTweet(tweetText, currentLoggedUser!);
 
   const addTweetPress = () => {
     addTweet();
-    setValue('');
+    setTweetText('');
     close();
   };
 
   const cancelClick = () => {
-    setValue('');
+    setTweetText('');
     close();
   };
 
   const changeTextClick = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(e.target.value);
+    setTweetText(e.target.value);
   };
 
   return (
@@ -57,7 +56,7 @@ export const AddTweetModal: FC<AddTweetModalPropsType> = ({
             rows={4}
             className="block p-2.5 w-full text-sm text-gray-900 bg-lime-200 rounded-lg border border-gray-300 focus:ring-lime-500 focus:border-lime-500 "
             placeholder="Write your thoughts here..."
-            value={value}
+            value={tweetText}
             onChange={changeTextClick}
           />
 

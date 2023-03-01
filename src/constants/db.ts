@@ -1,13 +1,11 @@
 import { avatar, cover } from '@/constants/images';
-import { IUser } from '@/context/userContext';
+import { IUser } from '@/context';
 
 export const users: IUser[] = [
   {
     id: '1',
     avatar:
       'https://www.theladders.com/wp-content/uploads/Lion_030818-1122x900.jpg',
-    // bgImage:
-    //   'https://www.decolore.net/wp-content/uploads/2018/08/piana-bubbles-liquid-abstract.jpg',
     bgImage: cover,
     username: 'skromez',
     firstName: 'Dmitrii',
@@ -17,6 +15,7 @@ export const users: IUser[] = [
     tweets: [
       {
         text: 'Hello World! The first Tweet from Dima:)',
+        id: '1234',
         likes: [
           {
             userId: '1',
@@ -42,6 +41,7 @@ export const users: IUser[] = [
     tweets: [
       {
         text: 'Hello World! The first Tweet from Egor :)',
+        id: '123',
         likes: [
           {
             userId: '3',
@@ -63,6 +63,7 @@ export const users: IUser[] = [
     tweets: [
       {
         text: 'Hello World! The first Tweet from Kitty:)',
+        id: '12345',
         likes: [
           {
             userId: '1',
@@ -72,6 +73,7 @@ export const users: IUser[] = [
       },
       {
         text: 'Hello World! The second Tweet from Kitty:)',
+        id: '123456',
         likes: [
           {
             userId: '1',
@@ -84,36 +86,11 @@ export const users: IUser[] = [
       },
       {
         text: 'Hello World! The third Tweet from Kitty:)',
+        id: '123457',
         likes: [
           {
             userId: '1',
           },
-          {
-            userId: '2',
-          },
-        ],
-        date: '2023-07-04',
-      },
-      {
-        text: 'Hello World! The third Tweet from Kitty:)',
-        likes: [
-          {
-            userId: '1',
-          },
-
-          {
-            userId: '2',
-          },
-        ],
-        date: '2023-07-04',
-      },
-      {
-        text: 'Hello World! The third Tweet from Kitty:)',
-        likes: [
-          {
-            userId: '1',
-          },
-
           {
             userId: '2',
           },
@@ -127,8 +104,6 @@ export const users: IUser[] = [
     avatar:
       'https://hips.hearstapps.com/hmg-prod/images/smartest-dog-breeds-lead-1587757081.jpg',
     bgImage: cover,
-    // bgImage:
-    //   'https://i0.wp.com/nashvillewineauction.com/wp-content/uploads/2015/12/Pink-Bubbles.jpg?ssl=1',
     username: 'Lin',
     firstName: 'Lou',
     lastName: '',
@@ -137,6 +112,7 @@ export const users: IUser[] = [
     tweets: [
       {
         text: 'Hello World! My first Tweet :)',
+        id: '12345681',
         likes: [
           {
             userId: '3',

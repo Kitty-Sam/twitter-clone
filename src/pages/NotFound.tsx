@@ -7,7 +7,7 @@ import { notFound } from '@/constants/images';
 export const NotFound = () => {
   const navigate = useNavigate();
   const backHome = () => {
-    navigate(RootNameRoutes.HOME, { replace: true });
+    navigate(RootNameRoutes.LAUNCH, { replace: true });
   };
 
   return (
@@ -15,7 +15,7 @@ export const NotFound = () => {
       <div className="bg-amber-50 h-1/4 w-1/4 mt-5">
         <img src={notFound} alt="404" className="h-full w-full rounded-3xl" />
         <Button background={false} onClick={backHome}>
-          Back home
+          Back
         </Button>
       </div>
     </div>

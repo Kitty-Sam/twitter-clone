@@ -47,7 +47,7 @@ export const TweetContainer: FC<TweetPropsType> = ({
                   if (isAuth) {
                     onToggle();
                   } else {
-                    console.log('Register first');
+                    alert('Register or Login first');
                   }
                 }}
               />
