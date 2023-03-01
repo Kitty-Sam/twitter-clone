@@ -1,9 +1,5 @@
 export enum RootNameRoutes {
-  HOME = '/',
+  USER = ':userName',
   PAGE_NOT_FOUND = '*',
-}
-
-export enum AuthNameRoutes {
-  LOGIN = '/login',
-  REGISTER = '/register',
+  LAUNCH = '/',
 }
