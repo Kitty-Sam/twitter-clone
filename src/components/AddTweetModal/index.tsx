@@ -1,37 +1,25 @@
 import React, { ChangeEvent, FC, useState } from 'react';
 import { Modal } from 'react-overlays';
-import { Text } from '@shared/Text';
 import { Button } from '@shared/Button';
 import { ButtonCancel } from '@shared/ButtonCancel';
+import { TextBold } from '@shared/Text';
 import { AddTweetModalPropsType } from '@/components/AddTweetModal/type';
-import { getCurrentDate } from '@/helpers/getCurrentDate';
-import { addTweetForLoggedUser } from '@/store/reducers/userSlice';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useAppSelector } from '@/store/hooks';
+import { useTweet } from '@/hooks/useTweet';
 
 export const AddTweetModal: FC<AddTweetModalPropsType> = ({
   isOpen,
   renderBackdrop,
   close,
 }) => {
-  const dispatch = useAppDispatch();
   const currentLoggedUser = useAppSelector(
-    (state) => state.users.currentLoggedUser
+    (state) => state.users.currentLoggedUser!
   );
   const [value, setValue] = useState('');
+  const { addTweet, removeTweet } = useTweet(value, currentLoggedUser);
 
-  const addTweet = () => {
-    if (currentLoggedUser) {
-      dispatch(
-        addTweetForLoggedUser({
-          currentLoggedUser,
-          tweet: {
-            text: value,
-            likes: [],
-            date: getCurrentDate(),
-          },
-        })
-      );
-    }
+  const addTweetPress = () => {
+    addTweet();
     setValue('');
     close();
   };
@@ -54,7 +42,7 @@ export const AddTweetModal: FC<AddTweetModalPropsType> = ({
       <div className="flex items-center justify-center h-full">
         <div className="bg-amber-50 rounded-3xl p-5 w-1/4">
           <div className="flex flex-row justify-between items-center py-2">
-            <Text>Add tweet</Text>
+            <TextBold>Add tweet</TextBold>
             <ButtonCancel onClick={cancelClick}>x</ButtonCancel>
           </div>
 
@@ -74,7 +62,7 @@ export const AddTweetModal: FC<AddTweetModalPropsType> = ({
           />
 
           <div className="flex flex-row justify-evenly items-center py-5">
-            <Button background type="button" onClick={addTweet}>
+            <Button background type="button" onClick={addTweetPress}>
               Add
             </Button>
           </div>

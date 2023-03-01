@@ -1,8 +1,7 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { Modal } from 'react-overlays';
-import { Text } from '@shared/Text';
+import { TextBold } from '@shared/Text';
 import { Button } from '@shared/Button';
-import { Checkbox } from '@shared/Checkbox';
 import { ButtonCancel } from '@shared/ButtonCancel';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -20,7 +19,6 @@ export const LoginModal: FC<LoginModalPropsType> = ({
   close,
   registerOpen,
 }) => {
-  const [isRemembered, setIsRemembered] = useState(false);
   const dispatch = useAppDispatch();
   const credentials = useAppSelector((state) => state.users.credentials);
   const allUsers = useAppSelector((state) => state.users.users);
@@ -39,20 +37,6 @@ export const LoginModal: FC<LoginModalPropsType> = ({
     },
   });
   const onSubmit: SubmitHandler<LoginInputsType> = ({ username, password }) => {
-    if (isRemembered) {
-      dispatch(currentLoggedUser(username));
-      // const updatedUsers = usersLS.concat(username);
-      // localStorage.setItem('rememberedUsers', JSON.stringify(updatedUsers));
-      if (
-        (credentials.username === username &&
-          credentials.password === password) ||
-        allUsers.find((person: IUser) => person.username === username)
-      ) {
-        dispatch(currentLoggedUser(username));
-        reset();
-        setIsRemembered(false);
-      }
-    }
     if (
       (credentials.username === username &&
         credentials.password === password) ||
@@ -61,27 +45,20 @@ export const LoginModal: FC<LoginModalPropsType> = ({
       dispatch(currentLoggedUser(username));
       navigate(`/${username}`, { replace: true });
       reset();
-      setIsRemembered(false);
       close();
     }
 
     reset();
-    setIsRemembered(false);
+    close();
   };
 
   const cancelClick = () => {
     reset();
     close();
-    setIsRemembered(false);
-  };
-
-  const checkBoxToggle = () => {
-    setIsRemembered(!isRemembered);
   };
 
   const signUpClick = () => {
     reset();
-    setIsRemembered(false);
     close();
     registerOpen();
   };
@@ -95,7 +72,7 @@ export const LoginModal: FC<LoginModalPropsType> = ({
       <div className="flex items-center justify-center h-full">
         <div className="bg-amber-50 rounded-3xl p-5 w-1/4">
           <div className="flex flex-row justify-between items-center py-2">
-            <Text>Login</Text>
+            <TextBold>Login</TextBold>
             <ButtonCancel onClick={cancelClick}>x</ButtonCancel>
           </div>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -114,11 +91,6 @@ export const LoginModal: FC<LoginModalPropsType> = ({
               className="w-full bg-lime-200 rounded text-slate-800 my-2 p-3 border-transparent focus:border-transparent focus:ring-0"
             />
             <p className="italic text-red-500">{errors.password?.message}</p>
-            <Checkbox
-              label="Remember me"
-              value={isRemembered}
-              onChange={checkBoxToggle}
-            />
             <div className="flex flex-row justify-evenly items-center py-5">
               <p>Do have an account?</p>
               <Button background={false} onClick={signUpClick}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from '@shared/Text';
+import { TextBold } from '@shared/Text';
 import { FiHeart } from 'react-icons/fi';
 import { users } from '@/constants/db';
 import { Header } from '@/components/Header';
@@ -11,7 +11,7 @@ export const Launch = () => {
       <Header />
       <div className="flex flex-row justify-around items-center h-screen">
         <div className="flex flex-col items-center">
-          <Text>Enjoy our society</Text>
+          <TextBold>Enjoy our society</TextBold>
           <FiHeart
             className="fill-red-200 animate-pulse m-4"
             size={56}
@@ -19,7 +19,7 @@ export const Launch = () => {
           />
         </div>
         <div className="w-3/12  rounded p-10 bg-white">
-          <Text>Would you like to find new friends?</Text>
+          <TextBold>Would you like to find new friends?</TextBold>
           <ul>
             {users.map((user) => (
               <li key={user.id}>

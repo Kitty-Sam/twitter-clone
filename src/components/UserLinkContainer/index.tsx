@@ -9,7 +9,7 @@ export const UserLinkContainer: FC<UserLinkContainerPropsType> = ({ user }) => {
       className="flex flex-row justify-between items-center border border-lime-200 py-4 px-4 my-4 rounded-3xl hover:bg-lime-200"
     >
       <p className="pr-4">
-        {user.firstName} {user.lastName} ({user.username})
+        {user.firstName} {user.lastName} (@{user.username})
       </p>
       <div className="w-[60px] h-[60px]">
         <img

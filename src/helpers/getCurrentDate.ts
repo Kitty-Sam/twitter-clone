@@ -5,3 +5,22 @@ export const getCurrentDate = () => {
   const yyyy = today.getFullYear();
   return `${yyyy}-${dd}-${mm}`;
 };
+
+export const rebuildDate = (date: string) => {
+  const monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  const fullDate = new Date(date);
+  return `Since ${monthNames[fullDate.getMonth()]} ${fullDate.getFullYear()}`;
+};

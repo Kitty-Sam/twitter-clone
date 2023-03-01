@@ -1,7 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Text } from '@shared/Text';
+import { TextBold } from '@shared/Text';
 import { Button } from '@shared/Button';
+import { Title } from '@shared/Title';
+import { BsCalendar3, FaLocationArrow } from 'react-icons/all';
 import { Header } from '@/components/Header';
 import { avatarNone, coverNone, signUp } from '@/constants/images';
 import { ITweet, IUser } from '@/context/userContext';
@@ -9,6 +11,7 @@ import { TweetContainer } from '@/components/TweetContainer';
 import { useAppSelector } from '@/store/hooks';
 import { useOpen } from '@/hooks/useOpen';
 import { AddTweetModal } from '@/components/AddTweetModal';
+import { rebuildDate } from '@/helpers/getCurrentDate';
 
 export const User = () => {
   const tweet = useOpen(false);
@@ -50,7 +53,7 @@ export const User = () => {
 
       <div className="p-4 flex  justify-center items-center bg-white">
         <div className="flex flex-col  justify-center items-center">
-          <Text>My Tweets</Text>
+          <TextBold>Tweets</TextBold>
           <p className="italic underline">
             {currentUser && currentUser.tweets.length}
           </p>
@@ -62,21 +65,31 @@ export const User = () => {
         )}
       </div>
 
-      <div className="flex items-center justify-center bg-white">
+      <div className="flex items-center justify-center bg-amber-50">
         <div className="flex flex-row w-10/12 justify-around">
-          <div className="h-96 p-10 flex flex-col justify-center items-center">
-            <p className="font-bold  text-xl">Personal info</p>
-            <p className="font-bold italic hover:not-italic">
+          <div className="h-96 px-8  flex flex-col mt-12">
+            <Title>
               {currentUser
                 ? `${currentUser.firstName} ${currentUser.lastName}`
                 : 'Surname name ...'}
-            </p>
-            <p className="italic hover:not-italic">
-              {currentUser ? currentUser.location : 'Location ...'}
-            </p>
-            <p className="italic hover:not-italic0">
-              {currentUser ? currentUser.joined : 'Joined at ...'}
-            </p>
+            </Title>
+            <TextBold>
+              {currentUser ? `@${currentUser.username}` : 'Username ...'}
+            </TextBold>
+            <div className="flex flex-row items-center mt-12">
+              <BsCalendar3 className="mr-3" color="rgb(156 163 175)" />
+              <TextBold>
+                {currentUser
+                  ? rebuildDate(currentUser.joined)
+                  : 'Joined at ...'}
+              </TextBold>
+            </div>
+            <div className="flex flex-row items-center mt-3">
+              <FaLocationArrow className="mr-3" color="rgb(156 163 175)" />
+              <TextBold>
+                {currentUser ? currentUser.location : 'Location ...'}
+              </TextBold>
+            </div>
           </div>
 
           <div className="py-10">
@@ -92,7 +105,7 @@ export const User = () => {
                       tweet={singleTweet.text}
                       count={singleTweet.likes}
                       nickName={currentUser.username}
-                      name={currentUser.firstName}
+                      name={`${currentUser.firstName}  ${currentUser.lastName}`}
                       date={singleTweet.date}
                       currentUserId={currentUser.id}
                       isAuth={false}

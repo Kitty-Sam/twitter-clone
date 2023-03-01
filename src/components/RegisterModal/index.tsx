@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Modal } from 'react-overlays';
-import { Text } from '@shared/Text';
+import { TextBold } from '@shared/Text';
 import { Button } from '@shared/Button';
 import { ButtonCancel } from '@shared/ButtonCancel';
 import { nanoid } from 'nanoid';
@@ -84,7 +84,7 @@ export const RegisterModal: FC<RegisterModalPropsType> = ({
       <div className="flex items-center justify-center h-full">
         <div className="bg-amber-50 rounded-3xl p-5 w-1/4">
           <div className="flex flex-row justify-between items-center py-2">
-            <Text>Register</Text>
+            <TextBold>Register</TextBold>
             <ButtonCancel onClick={cancelClick}>x</ButtonCancel>
           </div>
 

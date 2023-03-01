@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@shared/Button';
 
 import { GiWillowTree } from 'react-icons/all';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useOpen } from '@/hooks/useOpen';
 import { LoginModal } from '@/components/LoginModal';
 import { RegisterModal } from '@/components/RegisterModal';
@@ -36,12 +36,17 @@ export const Header = () => {
   return (
     <div className="p-4 w-screen bg-white">
       <div className="flex flex-row justify-around">
-        <GiWillowTree
-          className=""
-          size={38}
-          color="rgb(132 204 22)"
-          onClick={() => navigate('/', { replace: true })}
-        />
+        <div className="flex flex-row  items-center justify-center">
+          <GiWillowTree
+            className="pr-4"
+            size={42}
+            color="rgb(132 204 22)"
+            onClick={() => navigate('/', { replace: true })}
+          />
+          <Link to="/" className="text-lime-500 font-bold text-l uppercase">
+            Jungle
+          </Link>
+        </div>
 
         {currentLoggedUser ? (
           <Button
