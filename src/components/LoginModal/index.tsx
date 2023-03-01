@@ -91,7 +91,10 @@ export const LoginModal: FC<LoginModalPropsType> = ({
               placeholder="password"
               className="w-full bg-lime-200 rounded text-slate-800 my-2 p-3 border-transparent focus:border-transparent focus:ring-0"
             />
-            <p className="italic text-red-500">{errors.password?.message}</p>
+            <p className="italic text-red-500">
+              {errors.password &&
+                'min lenght your password - 3 (use random password)'}
+            </p>
             <div className="flex flex-row justify-evenly items-center py-5">
               <p>Do have an account?</p>
               <Button background={false} onClick={signUpClick}>
