@@ -1,8 +1,0 @@
-[build]
-  command = "CI= npm run build"
-  base = "vite-project"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
