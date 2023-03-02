@@ -7,4 +7,5 @@ export interface TweetPropsType {
   currentUserId: string;
   avatarTweet?: string;
   isAuth: boolean;
+  tweetId: string;
 }

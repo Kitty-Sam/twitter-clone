@@ -38,15 +38,20 @@ export const LoginModal: FC<LoginModalPropsType> = ({
     },
   });
   const onSubmit: SubmitHandler<LoginInputsType> = ({ username, password }) => {
+    const currentUser = allUsers.find(
+      (person: IUser) => person.username === username
+    );
     if (
       (credentials.username === username &&
         credentials.password === password) ||
-      allUsers.find((person: IUser) => person.username === username)
+      currentUser
     ) {
-      dispatch(currentLoggedUser(username));
-      navigate(`/${username}`, { replace: true });
-      reset();
-      close();
+      if (currentUser) {
+        dispatch(currentLoggedUser(currentUser));
+        navigate(`/${username}`, { replace: true });
+        reset();
+        close();
+      }
     }
 
     reset();

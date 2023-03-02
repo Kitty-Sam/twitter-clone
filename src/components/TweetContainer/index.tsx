@@ -1,7 +1,12 @@
 import React, { FC } from 'react';
 import { FiHeart } from 'react-icons/fi';
+import { AiFillEdit } from 'react-icons/all';
 import { TweetPropsType } from '@/components/TweetContainer/type';
 import { useCount } from '@/hooks/useCount';
+import { useOpen } from '@/hooks/useOpen';
+import { EditTweetModal } from '@/components/EditTweetModal';
+import { useAppSelector } from '@/store/hooks';
+import { getCurrentLoggedUser } from '@/store/selectors';
 
 export const TweetContainer: FC<TweetPropsType> = ({
   tweet,
@@ -12,10 +17,22 @@ export const TweetContainer: FC<TweetPropsType> = ({
   currentUserId,
   avatarTweet,
   isAuth,
+  tweetId,
 }) => {
   const { onToggle, counter, isPressed } = useCount(
     count.length,
     Boolean(count.find((el) => el.userId === currentUserId))
+  );
+
+  const editTweet = useOpen(false);
+
+  const currentLoggedUser = useAppSelector(getCurrentLoggedUser);
+
+  const renderBackdrop = (props: any) => (
+    <div
+      className="fixed top-0 bottom-0 left-0 right-0 bg-black opacity-50"
+      {...props}
+    />
   );
 
   return (
@@ -36,6 +53,13 @@ export const TweetContainer: FC<TweetPropsType> = ({
               <p className="pr-4 font-bold">{name}</p>
               <p className="px-2 text-gray-400">@{nickName}</p>
               <p className="px-2 text-gray-400">{date}</p>
+              {currentLoggedUser && (
+                <AiFillEdit
+                  size={24}
+                  color="rgb(156 163 175)"
+                  onClick={() => editTweet.onOpen()}
+                />
+              )}
             </div>
             <p className="italic">{tweet}</p>
             <div className="flex">
@@ -55,6 +79,16 @@ export const TweetContainer: FC<TweetPropsType> = ({
             </div>
           </div>
         </div>
+      )}
+      {currentLoggedUser && (
+        <EditTweetModal
+          isOpen={editTweet.isOpen}
+          renderBackdrop={renderBackdrop}
+          close={editTweet.onClose}
+          tweetId={tweetId}
+          currentUser={currentLoggedUser}
+          tweetText={tweet}
+        />
       )}
     </div>
   );

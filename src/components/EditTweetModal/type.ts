@@ -1,8 +1,10 @@
 import { IUser } from '@/context';
 
-export interface AddTweetModalPropsType {
+export interface EditTweetModalPropsType {
   isOpen: boolean;
   renderBackdrop: (values: any) => JSX.Element;
   close: () => void;
-  currentLoggedUser: IUser;
+  tweetId: string;
+  currentUser: IUser;
+  tweetText: string;
 }

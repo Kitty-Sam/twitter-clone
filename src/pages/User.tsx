@@ -17,6 +17,7 @@ import { getAllUsers, getCurrentLoggedUser } from '@/store/selectors';
 
 export const User = () => {
   const tweet = useOpen(false);
+
   const { userName } = useParams();
 
   const allUsers = useAppSelector(getAllUsers);
@@ -62,7 +63,7 @@ export const User = () => {
             {currentUser && currentUser.tweets.length}
           </p>
         </div>
-        {currentLoggedUser === currentUser?.username && (
+        {currentLoggedUser?.username === currentUser?.username && (
           <Button background onClick={openAddTweetModal}>
             Add tweet
           </Button>
@@ -113,6 +114,7 @@ export const User = () => {
                       date={singleTweet.date}
                       currentUserId={currentUser.id}
                       isAuth={!!currentLoggedUser}
+                      tweetId={singleTweet.id}
                     />
                   )
               )}
@@ -137,11 +139,14 @@ export const User = () => {
           )}
         </div>
       </div>
-      <AddTweetModal
-        isOpen={tweet.isOpen}
-        renderBackdrop={renderBackdrop}
-        close={tweet.onClose}
-      />
+      {currentLoggedUser && (
+        <AddTweetModal
+          isOpen={tweet.isOpen}
+          renderBackdrop={renderBackdrop}
+          close={tweet.onClose}
+          currentLoggedUser={currentLoggedUser}
+        />
+      )}
     </div>
   );
 };

@@ -2,10 +2,12 @@ import { nanoid } from 'nanoid';
 import { useAppDispatch } from '@/store/hooks';
 import { addTweetForLoggedUser } from '@/store/reducers/userSlice';
 import { getCurrentDate } from '@/helpers/getCurrentDate';
+import { IUser } from '@/context';
 
-export const useTweet = (tweetText: string, loggedUser: string) => {
+export const useTweet = (tweetText: string, loggedUser: IUser) => {
   const dispatch = useAppDispatch();
   const id = nanoid();
+
   const addTweet = () => {
     if (loggedUser) {
       dispatch(
@@ -22,8 +24,5 @@ export const useTweet = (tweetText: string, loggedUser: string) => {
     }
   };
 
-  const removeTweet = () => {
-    console.log('remove');
-  };
-  return { addTweet, removeTweet };
+  return { addTweet };
 };

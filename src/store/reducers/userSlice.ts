@@ -4,7 +4,7 @@ import { users } from '@/constants/db';
 
 export interface UserStateType {
   users: IUser[];
-  currentLoggedUser: string | null;
+  currentLoggedUser: IUser | null;
   credentials: {
     username: string;
     password: string;
@@ -25,17 +25,48 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     addNewUser: (state, action: PayloadAction<IUser>) => {
-      state.users.push(action.payload);
+      state.users = [...state.users, action.payload];
     },
     addTweetForLoggedUser: (
       state,
-      action: PayloadAction<{ currentLoggedUser: string; tweet: ITweet }>
+      action: PayloadAction<{
+        currentLoggedUser: IUser;
+        tweet: ITweet;
+      }>
     ) => {
-      state.users
-        .filter((user) => user.username === action.payload.currentLoggedUser)[0]
-        .tweets.push(action.payload.tweet);
+      state.users = state.users.map((user) => {
+        if (user.username === action.payload.currentLoggedUser.username) {
+          return {
+            ...user,
+            tweets: [...user.tweets, action.payload.tweet],
+          };
+        }
+        return user;
+      });
     },
-    currentLoggedUser: (state, action: PayloadAction<string>) => {
+    editTweetForLoggedUser: (
+      state,
+      action: PayloadAction<{
+        currentLoggedUser: IUser;
+        editedTweet: ITweet;
+        tweetId: string;
+      }>
+    ) => {
+      state.users = state.users.map((user) => {
+        if (user.username === action.payload.currentLoggedUser.username) {
+          return {
+            ...user,
+            tweets: user.tweets.map((tweet) =>
+              tweet.id === action.payload.tweetId
+                ? action.payload.editedTweet
+                : tweet
+            ),
+          };
+        }
+        return user;
+      });
+    },
+    currentLoggedUser: (state, action: PayloadAction<IUser>) => {
       state.currentLoggedUser = action.payload;
     },
     removeCurrentLoggedUser: (state) => {
@@ -56,6 +87,7 @@ export const {
   addCredentials,
   removeCurrentLoggedUser,
   addTweetForLoggedUser,
+  editTweetForLoggedUser,
 } = userSlice.actions;
 
 export default userSlice.reducer;

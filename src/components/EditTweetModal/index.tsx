@@ -3,31 +3,55 @@ import { Modal } from 'react-overlays';
 import { Button } from '@shared/Button';
 import { ButtonCancel } from '@shared/ButtonCancel';
 import { TextBold } from '@shared/Text';
-import { AddTweetModalPropsType } from '@/components/AddTweetModal/type';
-import { useTweet } from '@/hooks/useTweet';
+import { EditTweetModalPropsType } from '@/components/EditTweetModal/type';
 
-export const AddTweetModal: FC<AddTweetModalPropsType> = ({
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { getAllUsers } from '@/store/selectors';
+import { editTweetForLoggedUser } from '@/store/reducers/userSlice';
+
+export const EditTweetModal: FC<EditTweetModalPropsType> = ({
   isOpen,
   renderBackdrop,
   close,
-  currentLoggedUser,
+  tweetId,
+  currentUser,
+  tweetText,
 }) => {
-  const [tweetText, setTweetText] = useState('');
-  const { addTweet } = useTweet(tweetText, currentLoggedUser);
+  const allUsers = useAppSelector(getAllUsers);
 
-  const addTweetPress = () => {
-    addTweet();
-    setTweetText('');
+  const dispatch = useAppDispatch();
+
+  const [editedTweetText, setEditedTweetText] = useState(tweetText);
+
+  const currentTweet = allUsers
+    .filter((user) => user.username === currentUser.username)[0]
+    .tweets.filter((tweet) => tweet.id === tweetId)[0];
+
+  const editTweet = () => {
+    if (currentUser) {
+      dispatch(
+        editTweetForLoggedUser({
+          currentLoggedUser: currentUser,
+          editedTweet: {
+            ...currentTweet,
+            text: editedTweetText,
+          },
+          tweetId,
+        })
+      );
+    }
+  };
+  const editTweetPress = () => {
+    editTweet();
     close();
   };
 
   const cancelClick = () => {
-    setTweetText('');
     close();
   };
 
   const changeTextClick = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setTweetText(e.target.value);
+    setEditedTweetText(e.target.value);
   };
 
   return (
@@ -39,9 +63,15 @@ export const AddTweetModal: FC<AddTweetModalPropsType> = ({
       <div className="flex items-center justify-center h-full">
         <div className="bg-amber-50 rounded-3xl p-5 w-1/4">
           <div className="flex flex-row justify-between items-center py-2">
-            <TextBold>Add tweet</TextBold>
+            <TextBold>Your tweet</TextBold>
             <ButtonCancel onClick={cancelClick}>x</ButtonCancel>
           </div>
+
+          <TextBold>was created</TextBold>
+          <p className="text-sm text-gray-900">{currentTweet.date}</p>
+
+          <TextBold>liked</TextBold>
+          <p className="text-sm text-gray-900">{currentTweet.likes.length}</p>
 
           <label
             htmlFor="message"
@@ -54,13 +84,13 @@ export const AddTweetModal: FC<AddTweetModalPropsType> = ({
             rows={4}
             className="block p-2.5 w-full text-sm text-gray-900 bg-lime-200 rounded-lg border border-gray-300 focus:ring-lime-500 focus:border-lime-500 "
             placeholder="Write your thoughts here..."
-            value={tweetText}
+            value={editedTweetText}
             onChange={changeTextClick}
           />
 
           <div className="flex flex-row justify-evenly items-center py-5">
-            <Button background type="button" onClick={addTweetPress}>
-              Add
+            <Button background type="button" onClick={editTweetPress}>
+              Edit
             </Button>
           </div>
         </div>

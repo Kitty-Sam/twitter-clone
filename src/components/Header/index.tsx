@@ -8,6 +8,7 @@ import { LoginModal } from '@/components/LoginModal';
 import { RegisterModal } from '@/components/RegisterModal';
 import { removeCurrentLoggedUser } from '@/store/reducers/userSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { getCurrentLoggedUser } from '@/store/selectors';
 
 export const Header = () => {
   const login = useOpen(false);
@@ -29,9 +30,7 @@ export const Header = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const currentLoggedUser = useAppSelector(
-    (state) => state.users.currentLoggedUser
-  );
+  const currentLoggedUser = useAppSelector(getCurrentLoggedUser);
 
   return (
     <div className="p-4 w-screen bg-white">
@@ -41,9 +40,16 @@ export const Header = () => {
             className="pr-4"
             size={42}
             color="rgb(132 204 22)"
-            onClick={() => navigate('/', { replace: true })}
+            onClick={() => {
+              dispatch(removeCurrentLoggedUser());
+              navigate('/', { replace: true });
+            }}
           />
-          <Link to="/" className="text-lime-500 font-bold text-l uppercase">
+          <Link
+            to="/"
+            className="text-lime-500 font-bold text-l uppercase"
+            onClick={() => dispatch(removeCurrentLoggedUser())}
+          >
             Jungle
           </Link>
         </div>
