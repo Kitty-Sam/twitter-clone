@@ -66,6 +66,26 @@ export const userSlice = createSlice({
         return user;
       });
     },
+
+    deleteTweetForLoggedUser: (
+      state,
+      action: PayloadAction<{
+        currentLoggedUser: IUser;
+        tweetId: string;
+      }>
+    ) => {
+      state.users = state.users.map((user) => {
+        if (user.username === action.payload.currentLoggedUser.username) {
+          return {
+            ...user,
+            tweets: user.tweets.filter(
+              (tweet) => tweet.id !== action.payload.tweetId
+            ),
+          };
+        }
+        return user;
+      });
+    },
     currentLoggedUser: (state, action: PayloadAction<IUser>) => {
       state.currentLoggedUser = action.payload;
     },
@@ -88,6 +108,7 @@ export const {
   removeCurrentLoggedUser,
   addTweetForLoggedUser,
   editTweetForLoggedUser,
+  deleteTweetForLoggedUser,
 } = userSlice.actions;
 
 export default userSlice.reducer;

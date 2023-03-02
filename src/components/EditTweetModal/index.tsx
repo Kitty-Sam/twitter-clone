@@ -4,45 +4,30 @@ import { Button } from '@shared/Button';
 import { ButtonCancel } from '@shared/ButtonCancel';
 import { TextBold } from '@shared/Text';
 import { EditTweetModalPropsType } from '@/components/EditTweetModal/type';
-
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { getAllUsers } from '@/store/selectors';
-import { editTweetForLoggedUser } from '@/store/reducers/userSlice';
+import { useTweet } from '@/hooks/useTweet';
 
 export const EditTweetModal: FC<EditTweetModalPropsType> = ({
   isOpen,
   renderBackdrop,
   close,
-  tweetId,
   currentUser,
-  tweetText,
+  tweet,
 }) => {
-  const allUsers = useAppSelector(getAllUsers);
+  const [editedTweetText, setEditedTweetText] = useState(tweet.text);
 
-  const dispatch = useAppDispatch();
+  const { editTweet, deleteTweet } = useTweet(
+    editedTweetText,
+    currentUser,
+    tweet
+  );
 
-  const [editedTweetText, setEditedTweetText] = useState(tweetText);
-
-  const currentTweet = allUsers
-    .filter((user) => user.username === currentUser.username)[0]
-    .tweets.filter((tweet) => tweet.id === tweetId)[0];
-
-  const editTweet = () => {
-    if (currentUser) {
-      dispatch(
-        editTweetForLoggedUser({
-          currentLoggedUser: currentUser,
-          editedTweet: {
-            ...currentTweet,
-            text: editedTweetText,
-          },
-          tweetId,
-        })
-      );
-    }
-  };
   const editTweetPress = () => {
     editTweet();
+    close();
+  };
+
+  const deleteTweetPress = () => {
+    deleteTweet();
     close();
   };
 
@@ -68,10 +53,10 @@ export const EditTweetModal: FC<EditTweetModalPropsType> = ({
           </div>
 
           <TextBold>was created</TextBold>
-          <p className="text-sm text-gray-900">{currentTweet.date}</p>
+          <p className="text-sm text-gray-900">{tweet.date}</p>
 
           <TextBold>liked</TextBold>
-          <p className="text-sm text-gray-900">{currentTweet.likes.length}</p>
+          <p className="text-sm text-gray-900">{tweet.likes.length}</p>
 
           <label
             htmlFor="message"
@@ -92,6 +77,9 @@ export const EditTweetModal: FC<EditTweetModalPropsType> = ({
             <Button background type="button" onClick={editTweetPress}>
               Edit
             </Button>
+            <ButtonCancel type="button" onClick={deleteTweetPress}>
+              Delete tweet
+            </ButtonCancel>
           </div>
         </div>
       </div>

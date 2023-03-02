@@ -1,11 +1,10 @@
+import { ITweet } from '@/context';
+
 export interface TweetPropsType {
-  tweet: string;
+  tweet: ITweet;
   name: string;
   nickName: string;
-  date: string;
-  count: { userId: string }[];
   currentUserId: string;
   avatarTweet?: string;
   isAuth: boolean;
-  tweetId: string;
 }

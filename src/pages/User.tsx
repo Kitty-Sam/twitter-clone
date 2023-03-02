@@ -107,14 +107,11 @@ export const User = () => {
                         currentUser ? currentUser.avatar : avatarNone
                       }
                       key={index}
-                      tweet={singleTweet.text}
-                      count={singleTweet.likes}
+                      tweet={singleTweet}
                       nickName={currentUser.username}
                       name={`${currentUser.firstName}  ${currentUser.lastName}`}
-                      date={singleTweet.date}
                       currentUserId={currentUser.id}
                       isAuth={!!currentLoggedUser}
-                      tweetId={singleTweet.id}
                     />
                   )
               )}

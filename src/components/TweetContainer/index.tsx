@@ -12,16 +12,13 @@ export const TweetContainer: FC<TweetPropsType> = ({
   tweet,
   name,
   nickName,
-  date,
-  count,
   currentUserId,
   avatarTweet,
   isAuth,
-  tweetId,
 }) => {
   const { onToggle, counter, isPressed } = useCount(
-    count.length,
-    Boolean(count.find((el) => el.userId === currentUserId))
+    tweet.likes.length,
+    Boolean(tweet.likes.find((el) => el.userId === currentUserId))
   );
 
   const editTweet = useOpen(false);
@@ -52,7 +49,7 @@ export const TweetContainer: FC<TweetPropsType> = ({
             <div className="flex flex-row">
               <p className="pr-4 font-bold">{name}</p>
               <p className="px-2 text-gray-400">@{nickName}</p>
-              <p className="px-2 text-gray-400">{date}</p>
+              <p className="px-2 text-gray-400">{tweet.date}</p>
               {currentLoggedUser && (
                 <AiFillEdit
                   size={24}
@@ -61,7 +58,7 @@ export const TweetContainer: FC<TweetPropsType> = ({
                 />
               )}
             </div>
-            <p className="italic">{tweet}</p>
+            <p className="italic">{tweet.text}</p>
             <div className="flex">
               <FiHeart
                 className={isPressed ? 'fill-red-500' : ''}
@@ -85,9 +82,8 @@ export const TweetContainer: FC<TweetPropsType> = ({
           isOpen={editTweet.isOpen}
           renderBackdrop={renderBackdrop}
           close={editTweet.onClose}
-          tweetId={tweetId}
           currentUser={currentLoggedUser}
-          tweetText={tweet}
+          tweet={tweet}
         />
       )}
     </div>
