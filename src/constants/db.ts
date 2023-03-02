@@ -1,0 +1,125 @@
+import { avatar, cover } from '@/constants/images';
+import { IUser } from '@/context';
+
+export const users: IUser[] = [
+  {
+    id: '1',
+    avatar:
+      'https://www.theladders.com/wp-content/uploads/Lion_030818-1122x900.jpg',
+    bgImage: cover,
+    username: 'skromez',
+    firstName: 'Dmitrii',
+    lastName: 'Novikov',
+    location: 'Warsaw, Poland',
+    joined: '2023-01-01',
+    tweets: [
+      {
+        text: 'Hello World! The first Tweet from Dima:)',
+        id: '1234',
+        likes: [
+          {
+            userId: '1',
+          },
+          {
+            userId: '3',
+          },
+        ],
+        date: '2023-01-05',
+      },
+    ],
+  },
+  {
+    id: '2',
+    avatar:
+      'https://cdn.pixabay.com/photo/2014/03/29/09/17/cat-300572__340.jpg',
+    bgImage: cover,
+    username: 'vonubat',
+    firstName: 'Egor',
+    lastName: 'Tabunov',
+    location: 'Minsk, Belarus',
+    joined: '2023-01-02',
+    tweets: [
+      {
+        text: 'Hello World! The first Tweet from Egor :)',
+        id: '123',
+        likes: [
+          {
+            userId: '3',
+          },
+        ],
+        date: '2023-01-03',
+      },
+    ],
+  },
+  {
+    id: '3',
+    avatar,
+    bgImage: cover,
+    username: 'Kitty-Sam',
+    firstName: 'Kate',
+    lastName: 'Samuta',
+    location: 'Minsk, Belarus',
+    joined: '2023-01-03',
+    tweets: [
+      {
+        text: 'Hello World! The first Tweet from Kitty:)',
+        id: '12345',
+        likes: [
+          {
+            userId: '1',
+          },
+        ],
+        date: '2023-01-04',
+      },
+      {
+        text: 'Hello World! The second Tweet from Kitty:)',
+        id: '123456',
+        likes: [
+          {
+            userId: '1',
+          },
+          {
+            userId: '2',
+          },
+        ],
+        date: '2023-05-04',
+      },
+      {
+        text: 'Hello World! The third Tweet from Kitty:)',
+        id: '123457',
+        likes: [
+          {
+            userId: '1',
+          },
+          {
+            userId: '2',
+          },
+        ],
+        date: '2023-07-04',
+      },
+    ],
+  },
+  {
+    id: '4',
+    avatar:
+      'https://hips.hearstapps.com/hmg-prod/images/smartest-dog-breeds-lead-1587757081.jpg',
+    bgImage: cover,
+    username: 'Lin',
+    firstName: 'Lou',
+    lastName: '',
+    location: 'Bern, Switzerland',
+    joined: '2023-01-04',
+    tweets: [
+      {
+        text: 'Hello World! My first Tweet :)',
+        id: '12345681',
+        likes: [
+          {
+            userId: '3',
+          },
+        ],
+        date: '2023-01-04',
+      },
+    ],
+  },
+];

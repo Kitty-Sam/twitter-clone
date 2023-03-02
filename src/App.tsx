@@ -1,11 +1,12 @@
 import { BrowserRouter } from 'react-router-dom';
-import { useState } from 'react';
-import { RootRoutes } from './Routes/RootRoutes';
-import { AuthRoutes } from './Routes/AuthRoutes';
+import { RoutesNames } from '@/routes';
 
 export const App = () => {
-  const [isLogged, setIsLogged] = useState(true);
   return (
-    <BrowserRouter>{isLogged ? <RootRoutes /> : <AuthRoutes />}</BrowserRouter>
+    <div className="flex justify-center items-center bg-lime-50 w-screen">
+      <BrowserRouter>
+        <RoutesNames />
+      </BrowserRouter>
+    </div>
   );
 };
